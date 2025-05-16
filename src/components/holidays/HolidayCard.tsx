@@ -37,7 +37,7 @@ export const HolidayCard = ({holiday}: Props) => {
                 : holiday.description
             }
           </h2>
-          <h3 className="text-gray-500">
+          <h3 className="text-gray-800">
             {
               holiday.date
                 ? longDate(holiday.date)
