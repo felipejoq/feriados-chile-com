@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@font-face {
+  font-family: "Inter";
+  src: url("./fonts/inter.woff2") format("woff");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-body: "Inter", "Helvetica Neue", helvetica, arial, sans-serif;
+  --font-inter: "Inter", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
+body {
+  @apply overflow-y-auto bg-gray-100 min-h-dvh;
+}
+
+.active {
+  @apply text-white bg-gray-800;
+}

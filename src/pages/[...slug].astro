@@ -1,0 +1,68 @@
+---
+import type {GetStaticPaths} from "astro";
+import {getCollection} from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import {Navbar} from "../components/share/Navbar";
+import {linkList} from "../utils/data/links-archive";
+
+export const getStaticPaths = (async () => {
+  const articles = await getCollection("articles");
+
+  return articles.map(articleItem => {
+    return {
+      params: {
+        slug: articleItem.slug
+      },
+      props: {
+        article: articleItem
+      }
+    }
+  });
+}) satisfies GetStaticPaths;
+
+const {article} = Astro.props;
+
+const {Content} = await article.render();
+---
+<MainLayout
+        title={article.data.title}
+        description={article.data.description}
+        socialImage={article.data.image}
+>
+    <Navbar client:load linkList={linkList} />
+    <main class="w-full flex flex-col items-center justify-center mt-6 mb-12">
+
+        <article class="prose prose-lg md:prose-xl prose-slate
+        prose-h1:text-2xl prose-h1:mb-4 prose-h1:mt-0
+        prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3
+        prose-h3:text-lg prose-h3:mt-5 prose-h3:mb-2
+        max-w-3xl w-full px-6 py-10 bg-white rounded-xl shadow-md"
+        >
+            <!-- Imagen destacada -->
+            <picture>
+                <img
+                        src={article.data.image}
+                        alt={article.data.title}
+                        class="w-full h-auto object-cover rounded-xl mb-6 shadow max-h-96 aspect-[1200/686]"
+                />
+            </picture>
+
+            <!-- Título -->
+            <header class="text-center">
+                <h1 class="!mb-6">
+                  {article.data.title}
+                </h1>
+            </header>
+
+            <!-- Contenido del artículo -->
+            <Content/>
+
+            <!-- Enlace de regreso -->
+            <footer class="mt-12 flex justify-end text-sm">
+                <a href="/" class="text-gray-600 hover:bg-gray-400 hover:text-white text-lg border border-gray-500 px-4 py-1 rounded-lg no-underline transition-all">
+                    ← Volver al inicio
+                </a>
+            </footer>
+        </article>
+    </main>
+</MainLayout>

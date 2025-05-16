@@ -1,0 +1,24 @@
+---
+import BrandSite from "./brand/BrandSite.astro";
+import SiteDescription from "./brand/SiteDescription.astro";
+import SiteTitle from "./brand/SiteTitle.astro";
+
+interface Props {
+  year?: number;
+}
+
+const {year} = Astro.props;
+
+const finalYear = year ? year : new Date().getFullYear();
+
+---
+<header class="flex justify-center w-full">
+    <BrandSite>
+        <SiteTitle>
+            Feriados de Chile {finalYear}
+        </SiteTitle>
+        <SiteDescription>
+            Calendario completo de días feriados en Chile
+        </SiteDescription>
+    </BrandSite>
+</header>

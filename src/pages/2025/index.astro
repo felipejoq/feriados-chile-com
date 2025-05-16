@@ -1,0 +1,27 @@
+---
+import {getCollection} from "astro:content";
+import type {Holiday} from "../../interfaces/holidays/holiday";
+import {HolidayCard} from "../../components/holidays/HolidayCard";
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/share/Navbar";
+import {linkList} from "../../utils/data/links-archive";
+import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
+
+const holidaysCollection = await getCollection("holidays_2025");
+
+const holidays = holidaysCollection.map(holidayItem => ({
+  id: holidayItem.id,
+  ...holidayItem.data
+})) as Array<Holiday & { id: string }>;
+---
+<ArchiveLayout
+  year={2025}
+>
+    <div class="flex flex-col w-full my-6 gap-4">
+        {
+            holidays.map((holiday) => (
+              <HolidayCard holiday={holiday}/>
+            ))
+        }
+    </div>
+</ArchiveLayout>

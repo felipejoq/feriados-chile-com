@@ -1,0 +1,26 @@
+---
+import {getCollection} from "astro:content";
+import {type Holiday} from "../../interfaces/holidays/holiday";
+import {SearchTermInput} from "./SearchTermInput"
+import {SelectHolidayType} from "./SelectHolidayType";
+import {SelectHolidayMonth} from "./SelectHolidayMonth";
+import {ButtonResetFilters} from "./ButtonResetFilters";
+
+const holidaysCollection = await getCollection("holidays_2025");
+
+const holidays = holidaysCollection.map(holidayItem => ({
+  id: holidayItem.id,
+  ...holidayItem.data
+})) as Array<Holiday & { id: string }>;
+---
+<section class="flex flex-col gap-4">
+    <SearchTermInput holidaysArr={holidays} client:only="react"/>
+
+    <div class="flex flex-wrap w-full gap-4">
+        <SelectHolidayType client:only="react"/>
+
+        <SelectHolidayMonth client:only="react"/>
+
+        <ButtonResetFilters client:only="react"/>
+    </div>
+</section>

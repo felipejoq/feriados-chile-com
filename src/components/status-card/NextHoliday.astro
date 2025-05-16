@@ -1,0 +1,28 @@
+---
+import {actions} from "astro:actions";
+import {longDate, getTodayDateChile} from "../../utils/dates/date";
+
+const {
+  data,
+  error
+} = await Astro.callAction(actions.NextHoliday, getTodayDateChile());
+
+if (error) {
+  console.log(error)
+  throw new Error(error.message)
+}
+
+const {hasNextHoliday, nextHoliday, message} = data;
+---
+<>
+  {
+    hasNextHoliday && nextHoliday
+      ? (
+                    <p>
+                        <span class="font-semibold">Próximo feriado:</span>{" " + nextHoliday.description} - <span class="text-gray-900 font-normal text-sm italic">{longDate(nextHoliday?.date)}</span>
+                    </p>
+      ) : (
+                    <p>{message}</p>
+      )
+  }
+</>

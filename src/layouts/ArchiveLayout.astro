@@ -1,0 +1,71 @@
+---
+import "../styles/global.css";
+import Header from "../components/share/Header.astro";
+import Footer from "../components/share/Footer.astro";
+import {SITE_AUTHOR, SITE_IMAGE} from "../utils/config/globals";
+import {linkList} from "../utils/data/links-archive";
+import {Navbar} from "../components/share/Navbar";
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  year: number;
+  description?: string;
+  socialImage?: string;
+  title?: string;
+}
+
+const {
+  title = "Feriados de Chile",
+  description = `Todos los feriados de Chile para el año ${new Date().getFullYear()} feriados legales, irrenunciables, locales, especiales, etc. Todos los feriados aquí.`,
+  socialImage = SITE_IMAGE.src,
+  year = new Date().getFullYear()
+} = Astro.props;
+
+---
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <!-- add favicon -->
+    <link rel="icon" type="image/icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width"/>
+
+    <!-- socials meta -->
+    <meta property="og:title" content={`${title} - ${year}`}/>
+    <meta property="og:description" content={description}/>
+    <meta property="og:image" content={socialImage}/>
+
+    <!-- SEO -->
+    <meta name="description" content={description}/>
+    <meta name="author" content={SITE_AUTHOR}/>
+
+    <ClientRouter />
+
+    <title>{title}</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-3L1KYPN7S6"></script>
+  <script type="text/partytown">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-3L1KYPN7S6');
+    </script>
+    </head>
+<body>
+<div class="min-h-screen grid grid-rows-[auto_1fr_auto] container mx-auto px-4 py-8 max-w-5xl">
+    <Header year={year}/>
+    <Navbar client:load linkList={linkList}/>
+
+    <div class="w-full text-center mt-8">
+        <h2 class="text-xl font-bold">
+            Archivo Feriados año {year}
+        </h2>
+    </div>
+    <main>
+        <slot/>
+    </main>
+    <Footer/>
+</div>
+</body>
+</html>
