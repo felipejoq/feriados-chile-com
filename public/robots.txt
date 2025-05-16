@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://feriados-chile.com/sitemap-index.xml

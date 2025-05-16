@@ -13,6 +13,7 @@
     "@astrojs/node": "^9.2.1",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/react": "^4.2.7",
+    "@astrojs/sitemap": "^3.4.0",
     "@nanostores/react": "^1.0.0",
     "@tailwindcss/vite": "^4.1.6",
     "@types/react": "^19.1.3",
