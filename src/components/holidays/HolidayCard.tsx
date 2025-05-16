@@ -59,7 +59,7 @@ export const HolidayCard = ({holiday}: Props) => {
           </div>
         </div>
 
-        <div className="text-xs text-gray-500 sm:mt-6">
+        <div className="text-xs text-gray-700 sm:mt-6">
           <p className="flex items-center gap-2">
             <GoBook/>
             Respaldo legal: {holiday.legalSupport}
