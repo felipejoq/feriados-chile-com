@@ -2,6 +2,7 @@
 import BrandSite from "./brand/BrandSite.astro";
 import SiteDescription from "./brand/SiteDescription.astro";
 import SiteTitle from "./brand/SiteTitle.astro";
+import TitleBadge from "./brand/TitleBadge.astro";
 
 interface Props {
   year?: number;
@@ -15,7 +16,7 @@ const finalYear = year ? year : new Date().getFullYear();
 <header class="flex justify-center w-full">
     <BrandSite>
         <SiteTitle>
-            Feriados de Chile {finalYear}
+            Feriados de Chile <TitleBadge>{finalYear}</TitleBadge>
         </SiteTitle>
         <SiteDescription>
             Calendario completo de días feriados en Chile
