@@ -13,12 +13,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-
   site: 'https://feriados-chile.com',
   vite: {
     plugins: [tailwindcss()]
   },
-
   integrations: [
     react(),
     partytown({
@@ -28,11 +26,9 @@ export default defineConfig({
     }),
     sitemap()
   ],
-
   adapter: node({
     mode: 'standalone'
   }),
-
   server: {
     host: '0.0.0.0'
   },
