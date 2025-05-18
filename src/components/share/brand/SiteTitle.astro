@@ -1,5 +1,15 @@
 ---
+const isSingle = Astro.url.pathname !== "/";
 ---
-<h1 class="flex items-center gap-2 text-3xl font-bold text-center">
-    <slot/>
-</h1>
+
+{
+    isSingle ? (
+        <h2 class="flex items-center gap-2 text-3xl font-bold text-center">
+            <slot />
+        </h2>
+    ) : (
+        <h1 class="flex items-center gap-2 text-3xl font-bold text-center">
+            <slot />
+        </h1>
+    )
+}
