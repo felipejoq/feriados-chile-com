@@ -12,8 +12,9 @@ export const getTodayDateChile = (): string => {
 };
 
 // Formato largo de fecha (ej.: "Domingo, 11 de mayo 2025")
-export const longDate = (isoDate: string = getTodayDateChile()): string => {
-  const date = DateTime.fromISO(isoDate, { zone: "America/Santiago" }).setLocale("es");
+export const longDate = (isoDate?: string ): string => {  
+  const dateStr = isoDate ?? getTodayDateChile();
+  const date = DateTime.fromISO(dateStr, { zone: "America/Santiago" }).setLocale("es");
 
   const dayName = date.toFormat("cccc");
   const day = date.toFormat("dd");

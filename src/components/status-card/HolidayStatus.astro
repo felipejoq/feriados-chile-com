@@ -1,51 +1,58 @@
 ---
-import {actions} from "astro:actions";
-import {getDate, getTodayDateChile, longDate} from "../../utils/dates/date";
+import { actions } from "astro:actions";
+import { getTodayDateChile, longDate } from "../../utils/dates/date";
 
-const {
-  data,
-  error
-} = await Astro.callAction(actions.TodayIsHoliday, getTodayDateChile());
+const { data, error } = await Astro.callAction(
+  actions.TodayIsHoliday,
+  getTodayDateChile(),
+);
 
 if (error) {
-  console.log(error)
-  throw new Error(error.message)
+  console.log(error);
+  throw new Error(error.message);
 }
 
-const {isHoliday, message, holidays} = data;
+const { isHoliday, message, holidays } = data;
 ---
+
 <div>
   {
-    isHoliday
-      ? (
-                    <div class="flex flex-col gap-2">
-                        <div>
-                            <p class="text-green-700 font-semibold text-lg">
-                              {message} <span
-                                    class="text-gray-900 font-normal text-sm italic">{longDate(holidays[0].date)}</span>
-                            </p>
-                        </div>
-                        <ul class="flex flex-col gap-2">
-                          {
-                            holidays.map(holiday => (
-                                    <li class="w-max">
-                                      {
-                                        holiday.slug
-                                          ? (<a href={holiday.slug} class="px-2 py-1 bg-green-900 text-green-50 rounded hover:bg-green-800 hover:text-white transition-all">
-                                            {holiday.description}
-                                             </a>)
-                                          : (<span class="px-2 py-1 bg-green-900 text-green-50 rounded">
-                                                          {holiday.description}
-                                            </span>)
-                                      }
-                                    </li>
-                            ))
-                          }
-                        </ul>
-                    </div>
-      )
-      : (
-                    <p>{message} - <span class="text-gray-900 font-normal text-sm italic">{longDate()}</span></p>
-      )
+    isHoliday ? (
+      <div class="flex flex-col gap-2">
+        <div>
+          <p class="text-green-700 font-semibold text-lg flex flex-wrap gap-2 items-center">
+            {message}
+            <span class="text-gray-900 font-normal text-sm italic">
+              {longDate(holidays[0].date)}
+            </span>
+          </p>
+        </div>
+        <ul class="flex flex-col gap-2 my-2">
+          {holidays.map((holiday) => (
+            <li class="w-max">
+              {holiday.slug ? (
+                <a
+                  href={holiday.slug}
+                  class="px-2 py-1 bg-green-900 text-green-50 rounded hover:bg-green-800 hover:text-white transition-all"
+                >
+                  {holiday.description}
+                </a>
+              ) : (
+                <span class="px-2 py-1 bg-green-900 text-green-50 rounded">
+                  {holiday.description}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : (
+      <p>
+        {message} -{" "}
+        <span class="text-gray-900 font-normal text-sm italic">
+          {longDate()}
+        </span>
+      </p>
+    )
   }
 </div>

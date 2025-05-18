@@ -3,6 +3,7 @@ import HolidayStatus from "./HolidayStatus.astro";
 import NextHoliday from "./NextHoliday.astro";
 import {actions} from "astro:actions";
 import {getTodayDateChile} from "../../utils/dates/date";
+import { GoCalendar } from "react-icons/go";
 
 const {
     data,
@@ -25,7 +26,9 @@ const {isHoliday} = data;
         : "border-amber-500 bg-gradient-to-br from-amber-100 via-amber-50 to-amber-100"
       }`}
     >
-        <h2 class="text-2xl font-bold">Estado Actual</h2>
+        <h2 class="text-2xl font-bold flex gap-2 items-center">
+            <GoCalendar /> Estado Actual
+        </h2>
 
         <div>
             <HolidayStatus server:defer>
