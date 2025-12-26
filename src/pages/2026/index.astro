@@ -4,7 +4,7 @@ import type {Holiday} from "../../interfaces/holidays/holiday";
 import {HolidayCard} from "../../components/holidays/HolidayCard";
 import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
 
-const holidaysCollection = await getCollection("holidays_2025");
+const holidaysCollection = await getCollection("holidays_2026");
 
 const holidays = holidaysCollection.map(holidayItem => ({
   id: holidayItem.id,
