@@ -9,7 +9,7 @@ export const TodayIsHoliday = defineAction({
   accept: 'json',
   input: z.string(),
   handler: async (today) => {
-    const holidaysCollection = await getCollection('holidays_2025') as {data: Holiday}[];
+    const holidaysCollection = await getCollection('holidays_2026') as {data: Holiday}[];
 
     const holidaysFound = holidaysCollection.filter(({data}) => {
       return data.date !== null && data.date !== undefined
@@ -21,7 +21,7 @@ export const TodayIsHoliday = defineAction({
 
     // Check if today is Sunday in Chile Continental
     if (isSundayInTimeZone()) {
-      const sundayHoliday = await getEntry("holidays_2025", "todos-los-domingos");
+      const sundayHoliday = await getEntry("holidays_2026", "todos-los-domingos");
       if(sundayHoliday) {
         result.push(sundayHoliday.data as Holiday);
       }
@@ -48,7 +48,7 @@ export const NextHoliday = defineAction({
   accept: 'json',
   input: z.string(), // Fecha actual en formato 'YYYY-MM-DD'
   handler: async (today) => {
-    const holidaysCollection = await getCollection("holidays_2025") as { data: Holiday }[];
+    const holidaysCollection = await getCollection("holidays_2026") as { data: Holiday }[];
 
     const futureHolidays = holidaysCollection
       .filter(({ data }) =>
