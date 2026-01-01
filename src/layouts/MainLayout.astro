@@ -12,11 +12,16 @@ interface Props {
   year?: number;
 }
 
+const currentYearChile = new Date().toLocaleString('es-CL', { 
+  timeZone: 'America/Santiago', 
+  year: 'numeric' 
+});
+
 const {
-  title = `Feriados de Chile ${new Date().getFullYear()}`,
-  description = `Todos los feriados de Chile para el año ${new Date().getFullYear()} feriados legales, irrenunciables, locales, especiales, etc. Todos los feriados aquí.`,
+  title = `Feriados de Chile ${currentYearChile}`,
+  description = `Todos los feriados de Chile para el año ${currentYearChile} feriados legales, irrenunciables, locales, especiales, etc. Todos los feriados aquí.`,
   socialImage = SITE_IMAGE.src,
-  year = new Date().getFullYear()
+  year = parseInt(currentYearChile)
 } = Astro.props;
 ---
 <html lang="es">
