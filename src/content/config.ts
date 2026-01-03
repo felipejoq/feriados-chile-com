@@ -24,6 +24,7 @@ const holidaysCollection = defineCollection({
         beneficiaries: z.string().optional(),
         slug: z.string().optional(),
         date: z.string().nullable().optional(),
+        icon: z.string().optional(),
     }),
 });
 

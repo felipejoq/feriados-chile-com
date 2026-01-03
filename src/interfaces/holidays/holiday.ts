@@ -8,4 +8,5 @@ export type Holiday = {
   beneficiaries?: string;
   slug?: string;
   date: string | undefined;
+  icon?: string;
 }

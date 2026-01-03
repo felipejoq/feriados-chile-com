@@ -3,7 +3,6 @@ import HolidayStatus from "./HolidayStatus.astro";
 import NextHoliday from "./NextHoliday.astro";
 import {actions} from "astro:actions";
 import {getTodayDateChile} from "../../utils/dates/date";
-import { GoCalendar } from "react-icons/go";
 
 const {
     data,
@@ -15,31 +14,67 @@ if (error) {
     throw new Error(error.message)
 }
 
-const {isHoliday} = data;
+const {isHoliday, holidays} = data;
+const holidayIcon = isHoliday && holidays?.[0]?.icon ? holidays[0].icon : (isHoliday ? "🎉" : "📅");
 
 ---
-<section class="my-6">
+<section class="my-8">
     <div
-      class={`rounded-xl px-8 py-6 flex flex-col gap-4 border 
-    ${isHoliday
-        ? "border-green-500 bg-gradient-to-br from-green-100 via-green-50 to-green-100"
-        : "border-amber-500 bg-gradient-to-br from-amber-100 via-amber-50 to-amber-100"
-      }`}
+      class={`
+        rounded-2xl px-8 py-8 flex flex-col gap-6
+        backdrop-blur-sm border-2 transition-all duration-300 hover:shadow-lg
+        ${isHoliday
+          ? "border-emerald-400 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 shadow-lg shadow-emerald-200/50"
+          : "border-amber-400 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 shadow-lg shadow-amber-200/50"
+        }
+      `}
     >
-        <h2 class="text-2xl font-bold flex gap-2 items-center">
-            <GoCalendar /> Estado Actual
-        </h2>
-
-        <div>
-            <HolidayStatus server:defer>
-                <p class="mb-2" slot="fallback">🤞 Buscando en el calendario...</p>
-            </HolidayStatus>
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class={`text-3xl font-bold flex gap-3 items-center
+                    ${isHoliday ? "text-emerald-700" : "text-amber-700"}
+                `}>
+                    <span class="text-4xl">
+                        {holidayIcon}
+                    </span>
+                    <span>Estado Actual</span>
+                </h2>
+                <p class={`text-sm mt-2 ${isHoliday ? "text-emerald-600" : "text-amber-600"}`}>
+                    {isHoliday ? "¡Qué día especial!" : "Sigue contando los días..."}
+                </p>
+            </div>
         </div>
 
-        <div>
-            <NextHoliday server:defer>
-                <p class="mb-2" slot="fallback">🔍 Buscando siguiente feriado...</p>
-            </NextHoliday>
+        <div class="space-y-6">
+            <div class={`
+                rounded-xl p-5 transition-all duration-300
+                ${isHoliday
+                  ? "bg-white/60 border border-emerald-200 shadow-sm hover:shadow-md hover:bg-white/80"
+                  : "bg-white/60 border border-amber-200 shadow-sm hover:shadow-md hover:bg-white/80"
+                }
+            `}>
+                <HolidayStatus server:defer>
+                    <div class="flex items-center gap-2 mb-2 text-gray-600">
+                        <span class="text-xl">⏳</span>
+                        <p>Buscando en el calendario...</p>
+                    </div>
+                </HolidayStatus>
+            </div>
+
+            <div class={`
+                rounded-xl p-5 transition-all duration-300
+                ${isHoliday
+                  ? "bg-white/60 border border-emerald-200 shadow-sm hover:shadow-md hover:bg-white/80"
+                  : "bg-white/60 border border-amber-200 shadow-sm hover:shadow-md hover:bg-white/80"
+                }
+            `}>
+                <NextHoliday server:defer>
+                    <div class="flex items-center gap-2 text-gray-600">
+                        <span class="text-xl">🔍</span>
+                        <p>Buscando siguiente feriado...</p>
+                    </div>
+                </NextHoliday>
+            </div>
         </div>
     </div>
 </section>

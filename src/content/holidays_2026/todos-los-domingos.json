@@ -3,5 +3,6 @@
   "description": "Todos los días Domingos",
   "type": "Civil",
   "irrenunciable": false,
-  "legalSupport": "Ley 2.977"
+  "legalSupport": "Ley 2.977",
+  "icon": "🌞"
 }

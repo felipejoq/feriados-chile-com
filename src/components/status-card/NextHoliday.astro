@@ -18,15 +18,45 @@ const { hasNextHoliday, nextHoliday, message } = data;
 <>
   {
     hasNextHoliday && nextHoliday ? (
-      <p class="flex flex-wrap items-center gap-2">
-        <span class="font-semibold">Próximo feriado:</span>
-        {" " + nextHoliday.description}{" "}
-        <span class="text-gray-900 font-normal text-sm italic">
-          {longDate(nextHoliday?.date)}
-        </span>
-      </p>
+      <div class="flex items-start gap-3 animate-in fade-in duration-500">
+        <span class="text-3xl">{nextHoliday.icon || '🎯'}</span>
+        <div class="flex-1">
+          <p class="text-amber-700 font-bold text-lg">
+            {nextHoliday.description}
+          </p>
+          <p class="text-amber-600 text-sm mt-1 flex items-center gap-2">
+            <span>📍</span>
+            {longDate(nextHoliday?.date)}
+          </p>
+          <div class="mt-3 flex items-center gap-2">
+            <div class="flex-1 h-1 bg-gradient-to-r from-amber-300 to-orange-300 rounded-full overflow-hidden">
+              <div class="h-full w-1/2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
     ) : (
-      <p>{message}</p>
+      <div class="flex items-start gap-3 text-amber-700">
+        <span class="text-3xl">🌟</span>
+        <p class="font-semibold">{message}</p>
+      </div>
     )
   }
 </>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  :global(.animate-in) {
+    animation: fadeIn 0.5s ease-out;
+  }
+</style>

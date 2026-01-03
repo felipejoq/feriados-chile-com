@@ -27,15 +27,20 @@ const { holiday } = Astro.props;
 >
   <div class="flex flex-col gap-4">
     <div>
-      <h2 class="text-xl font-bold">
-        {holiday.slug ? (
-          <a class="cursor-pointer hover:underline" href={holiday.slug} target="_self">
-            {holiday.description}
-          </a>
-        ) : (
-          holiday.description
+      <div class="flex items-center gap-3 mb-2">
+        {holiday.icon && (
+          <span class="text-2xl">{holiday.icon}</span>
         )}
-      </h2>
+        <h2 class="text-xl font-bold">
+          {holiday.slug ? (
+            <a class="cursor-pointer hover:underline" href={holiday.slug} target="_self">
+              {holiday.description}
+            </a>
+          ) : (
+            holiday.description
+          )}
+        </h2>
+      </div>
       <h3 class="text-gray-800">
         {holiday.date ? longDate(holiday.date) : longDate(getNextSunday())}
       </h3>
