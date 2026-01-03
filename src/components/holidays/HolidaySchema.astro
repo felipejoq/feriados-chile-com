@@ -1,0 +1,26 @@
+---
+import type { Holiday } from "../../interfaces/holidays/holiday.ts";
+
+interface Props {
+  holiday: Holiday & { id: string };
+}
+
+const { holiday } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": holiday.description || "Feriado",
+  "startDate": holiday.date || "",
+  "endDate": holiday.date || "",
+  "description": `${holiday.description} - Tipo: ${holiday.type}. Respaldo legal: ${holiday.legalSupport}`,
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "name": "Chile"
+  },
+  "url": holiday.slug ? `https://feriados-chile.com${holiday.slug}` : "https://feriados-chile.com"
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)}></script>

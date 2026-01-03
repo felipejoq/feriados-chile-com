@@ -1,0 +1,73 @@
+---
+import {longDate, getNextSunday} from "../../utils/dates/date.ts";
+import type {Holiday} from "../../interfaces/holidays/holiday.ts";
+import {HolidayTypes} from "../../interfaces/holidays/holiday-types.ts";
+import {getCardBorderClass} from "../../utils/holidays/holidayStyles.ts";
+import InfoIcon from "../icons/InfoIcon.astro";
+import LocationIcon from "../icons/LocationIcon.astro";
+import BookIcon from "../icons/BookIcon.astro";
+
+interface Props {
+  holiday: Holiday & { id: string };
+}
+
+const { holiday } = Astro.props;
+---
+
+<article
+  class={`holiday-card border border-t-4 border-gray-300 p-6 rounded-xl bg-gray-100 flex flex-col gap-4 sm:flex-row justify-between ${getCardBorderClass(holiday.type)}`}
+  data-holiday-id={holiday.id}
+  data-holiday-description={(holiday.description || '').toLowerCase()}
+  data-holiday-type={holiday.type}
+  data-holiday-month={holiday.date ? new Date(holiday.date).getMonth() + 1 : ''}
+  data-holiday-date={holiday.date || ''}
+  data-holiday-beneficiaries={(holiday.beneficiaries || '').toLowerCase()}
+  data-holiday-legal={holiday.legalSupport.toLowerCase()}
+  data-holiday-long-date={holiday.date ? longDate(holiday.date).toLowerCase() : ''}
+>
+  <div class="flex flex-col gap-4">
+    <div>
+      <h2 class="text-xl font-bold">
+        {holiday.slug ? (
+          <a class="cursor-pointer hover:underline" href={holiday.slug} target="_self">
+            {holiday.description}
+          </a>
+        ) : (
+          holiday.description
+        )}
+      </h2>
+      <h3 class="text-gray-800">
+        {holiday.date ? longDate(holiday.date) : longDate(getNextSunday())}
+      </h3>
+      <div class="flex flex-wrap gap-2 mt-2 sm:mt-4">
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
+          <InfoIcon />
+          {holiday.type}
+        </span>
+        {holiday.type === HolidayTypes.Local && holiday.beneficiaries && (
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
+            <LocationIcon />
+            {holiday.beneficiaries}
+          </span>
+        )}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
+          {holiday.irrenunciable ? 'Irrenunciable' : 'Renunciable'}
+        </span>
+      </div>
+    </div>
+
+    <div class="text-xs text-gray-700 sm:mt-6">
+      <p class="flex items-center gap-2">
+        <BookIcon />
+        Respaldo legal: {holiday.legalSupport}
+      </p>
+    </div>
+  </div>
+  <div class="mt-6 self-end">
+    {holiday.slug && (
+      <a class="px-4 py-1 bg-gray-800 text-white rounded-full flex items-center gap-2 hover:bg-gray-700 transition-colors" href={holiday.slug} target="_self">
+        Ver más
+      </a>
+    )}
+  </div>
+</article>

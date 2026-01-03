@@ -25,7 +25,7 @@ export const SearchTermInput = ({ holidaysArr }: Props) => {
   }, [holidaysArr]);
 
   const handleSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
+    const value = e.target.value;
     setQuery(value);
     document.dispatchEvent(new CustomEvent('holiday-search-change', { detail: { query: value } }));
   };
