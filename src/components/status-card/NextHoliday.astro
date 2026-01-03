@@ -1,6 +1,6 @@
 ---
 import { actions } from "astro:actions";
-import { longDate, getTodayDateChile } from "../../utils/dates/date";
+import { longDate, getTodayDateChile, getProgressPercentage, getDaysUntilHoliday } from "../../utils/dates/date";
 
 const { data, error } = await Astro.callAction(
   actions.NextHoliday,
@@ -13,6 +13,8 @@ if (error) {
 }
 
 const { hasNextHoliday, nextHoliday, message } = data;
+const daysRemaining = hasNextHoliday && nextHoliday && nextHoliday.date ? getDaysUntilHoliday(nextHoliday.date) : 0;
+const progressPercentage = hasNextHoliday && nextHoliday && nextHoliday.date ? getProgressPercentage(nextHoliday.date) : 0;
 ---
 
 <>
@@ -28,9 +30,20 @@ const { hasNextHoliday, nextHoliday, message } = data;
             <span>📍</span>
             {longDate(nextHoliday?.date)}
           </p>
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-3 flex flex-col gap-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-amber-600">
+                Faltan {daysRemaining} {daysRemaining === 1 ? 'día' : 'días'}
+              </span>
+              <span class="text-amber-600 font-semibold">
+                {progressPercentage}%
+              </span>
+            </div>
             <div class="flex-1 h-1 bg-gradient-to-r from-amber-300 to-orange-300 rounded-full overflow-hidden">
-              <div class="h-full w-1/2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" />
+              <div 
+                class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-500" 
+                style={`width: ${progressPercentage}%`}
+              />
             </div>
           </div>
         </div>

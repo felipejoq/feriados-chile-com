@@ -71,3 +71,40 @@ export const getNextSunday = (fromDate?: Dayjs): string => {
   const nextSunday = baseDate.add(daysUntilSunday, 'day');
   return nextSunday.format('YYYY-MM-DD');
 };
+
+// Obtener la cantidad de días hasta un feriado
+export const getDaysUntilHoliday = (holidayDate: string): number => {
+  const today = now();
+  const holiday = fromISO(holidayDate);
+  
+  // Calcular diferencia de días usando dayjs (respeta timezone)
+  const todayFormatted = today.format('YYYY-MM-DD');
+  const holidayFormatted = holiday.format('YYYY-MM-DD');
+  
+  // Convetir a milisegundos usando la misma zona horaria
+  const todayTime = new Date(todayFormatted + 'T00:00:00').getTime();
+  const holidayTime = new Date(holidayFormatted + 'T00:00:00').getTime();
+  
+  const daysRemaining = Math.ceil((holidayTime - todayTime) / (1000 * 60 * 60 * 24));
+  
+  return Math.max(0, daysRemaining);
+};
+
+// Calcular el porcentaje de progreso hasta un feriado
+// Retorna un número entre 0 y 100 representando qué tan cerca está el feriado
+export const getProgressPercentage = (holidayDate: string): number => {
+  const daysRemaining = getDaysUntilHoliday(holidayDate);
+  
+  // Si el feriado ya pasó o es hoy, retornar 100
+  if (daysRemaining <= 0) {
+    return 100;
+  }
+  
+  // Usar una ventana de 30 días como referencia máxima
+  // Si faltan más de 30 días, usar 30 como denominador
+  const referenceWindow = 30;
+  const daysPassed = Math.max(0, referenceWindow - daysRemaining);
+  const percentage = Math.round((daysPassed / referenceWindow) * 100);
+  
+  return Math.min(Math.max(percentage, 0), 100);
+};
