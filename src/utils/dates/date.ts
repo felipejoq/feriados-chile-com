@@ -45,7 +45,7 @@ export const isSundayInTimeZone = (): boolean => {
 };
 
 // Ordenar dos feriados por fecha
-export const sortHolidays = (a: Holiday, b: Holiday) => {
+export const sortHolidays = (a: any, b: any) => {
   if (!a.date || !b.date) return 0;
 
   const dateA = fromISO(a.date);

@@ -14,13 +14,13 @@ const holidays = holidaysCollection.map(holidayItem => ({
 })) as Array<Holiday & { id: string }>;
 ---
 <section class="flex flex-col gap-4">
-    <SearchTermInput holidaysArr={holidays} client:only="react"/>
+    <SearchTermInput holidaysArr={holidays} client:load/>
 
     <div class="flex flex-wrap w-full gap-4">
-        <SelectHolidayType client:only="react"/>
+        <SelectHolidayType client:load/>
 
-        <SelectHolidayMonth client:only="react"/>
+        <SelectHolidayMonth client:load/>
 
-        <ButtonResetFilters client:only="react"/>
+        <ButtonResetFilters client:load/>
     </div>
 </section>

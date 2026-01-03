@@ -1,27 +1,33 @@
 import {type ChangeEvent, useEffect, useRef, useState} from 'react'
 import {GoSearch} from "react-icons/go";
-import {holidays, querySearch, searchHolidays} from "../../store/holidaysStore.ts";
+import {holidays} from "../../store/holidaysStore.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
 import {sortHolidays} from "../../utils/dates/date.ts";
-import {useStore} from "@nanostores/react";
 
 interface Props {
   holidaysArr: Array<Holiday & { id: string }>;
 }
 
 export const SearchTermInput = ({ holidaysArr }: Props) => {
-  const $query = useStore(querySearch);
+  const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     holidays.set(holidaysArr.sort(sortHolidays));
     inputRef.current?.focus();
+
+    // Listener para reset
+    const handleReset = () => {
+      setQuery("");
+    };
+    document.addEventListener('holiday-filters-reset', handleReset);
+    return () => document.removeEventListener('holiday-filters-reset', handleReset);
   }, [holidaysArr]);
 
   const handleSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
-    querySearch.set(value);
-    searchHolidays(value);
+    setQuery(value);
+    document.dispatchEvent(new CustomEvent('holiday-search-change', { detail: { query: value } }));
   };
 
   return (
@@ -35,7 +41,7 @@ export const SearchTermInput = ({ holidaysArr }: Props) => {
         id="search-term"
         name="search-term"
         onChange={handleSearchTermChange}
-        value={$query}
+        value={query}
         type="text"
         placeholder="Buscar feriado..."
       />

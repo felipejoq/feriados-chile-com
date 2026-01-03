@@ -1,0 +1,189 @@
+---
+import {getCollection} from "astro:content";
+import {longDate, getNextSunday, sortHolidays} from "../../utils/dates/date.ts";
+import type {Holiday} from "../../interfaces/holidays/holiday.ts";
+import {HolidayTypes} from "../../interfaces/holidays/holiday-types.ts";
+
+const holidaysCollection = await getCollection("holidays_2026");
+
+const holidays = holidaysCollection
+  .map(holidayItem => ({
+    id: holidayItem.id,
+    ...holidayItem.data
+  }))
+  .filter(h => h.date) // Filtrar feriados sin fecha
+  .sort(sortHolidays) as Array<Holiday & { id: string }>;
+
+const getCardBorderClass = (type: HolidayTypes): string => {
+  switch (type) {
+    case HolidayTypes.Civil:
+      return 'border-t-blue-500';
+    case HolidayTypes.Religious:
+      return 'border-t-purple-500';
+    case HolidayTypes.Local:
+      return 'border-t-green-500';
+    case HolidayTypes.Special:
+      return 'border-t-yellow-500';
+    default:
+      return 'border-t-gray-300';
+  }
+};
+---
+
+<div class="flex flex-col w-full my-6 gap-4" id="holiday-list">
+  {
+    holidays.map((holiday) => (
+      <article
+        class={`holiday-card border border-t-4 border-gray-300 p-6 rounded-xl bg-gray-100 flex flex-col gap-4 sm:flex-row justify-between ${getCardBorderClass(holiday.type)}`}
+        data-holiday-id={holiday.id}
+        data-holiday-description={(holiday.description || '').toLowerCase()}
+        data-holiday-type={holiday.type}
+        data-holiday-month={holiday.date ? new Date(holiday.date).getMonth() + 1 : ''}
+        data-holiday-date={holiday.date || ''}
+        data-holiday-beneficiaries={(holiday.beneficiaries || '').toLowerCase()}
+        data-holiday-legal={holiday.legalSupport.toLowerCase()}
+        data-holiday-long-date={holiday.date ? longDate(holiday.date).toLowerCase() : ''}
+      >
+        <div class="flex flex-col gap-4">
+          <div>
+            <h2 class="text-xl font-bold">
+              {holiday.slug ? (
+                <a class="cursor-pointer hover:underline" href={holiday.slug} target="_self">
+                  {holiday.description}
+                </a>
+              ) : (
+                holiday.description
+              )}
+            </h2>
+            <h3 class="text-gray-800">
+              {holiday.date ? longDate(holiday.date) : longDate(getNextSunday())}
+            </h3>
+            <div class="flex flex-wrap gap-2 mt-2 sm:mt-4">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"></path>
+                </svg>
+                {holiday.type}
+              </span>
+              {holiday.type === HolidayTypes.Local && holiday.beneficiaries && (
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                  </svg>
+                  {holiday.beneficiaries}
+                </span>
+              )}
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
+                {holiday.irrenunciable ? 'Irrenunciable' : 'Renunciable'}
+              </span>
+            </div>
+          </div>
+
+          <div class="text-xs text-gray-700 sm:mt-6">
+            <p class="flex items-center gap-2">
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"></path>
+              </svg>
+              Respaldo legal: {holiday.legalSupport}
+            </p>
+          </div>
+        </div>
+        <div class="mt-6 self-end">
+          {holiday.slug && (
+            <a class="px-4 py-1 bg-gray-800 text-white rounded-full flex items-center gap-2 hover:bg-gray-700 transition-colors" href={holiday.slug} target="_self">
+              Ver más
+            </a>
+          )}
+        </div>
+      </article>
+    ))
+  }
+  <p id="no-results-message" class="text-center text-gray-500 hidden">No hay feriados para mostrar.</p>
+</div>
+
+<script>
+  // JavaScript vanilla para filtros - Progressive Enhancement
+  let allCards: NodeListOf<HTMLElement>;
+  let activeTypeFilter: string | null = null;
+  let activeMonthFilter: number | null = null;
+  let activeSearchQuery: string = '';
+
+  function normalize(text: string): string {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function filterCards() {
+    if (!allCards) {
+      allCards = document.querySelectorAll<HTMLElement>('.holiday-card');
+    }
+
+    let visibleCount = 0;
+
+    allCards.forEach((card) => {
+      const type = card.dataset.holidayType || '';
+      const month = card.dataset.holidayMonth || '';
+      const searchableText = [
+        card.dataset.holidayDescription,
+        card.dataset.holidayBeneficiaries,
+        card.dataset.holidayLegal,
+        card.dataset.holidayLongDate,
+        card.dataset.holidayId?.replace('-', ' '),
+        type.toLowerCase(),
+      ].join(' ');
+
+      const matchesType = !activeTypeFilter || type === activeTypeFilter;
+      const matchesMonth = !activeMonthFilter || parseInt(month) === activeMonthFilter;
+      const matchesSearch = !activeSearchQuery || normalize(searchableText).includes(normalize(activeSearchQuery));
+
+      if (matchesType && matchesMonth && matchesSearch) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const noResultsMessage = document.getElementById('no-results-message');
+    if (noResultsMessage) {
+      if (visibleCount === 0) {
+        noResultsMessage.classList.remove('hidden');
+      } else {
+        noResultsMessage.classList.add('hidden');
+      }
+    }
+  }
+
+  // Event listeners para los filtros
+  document.addEventListener('DOMContentLoaded', () => {
+    allCards = document.querySelectorAll<HTMLElement>('.holiday-card');
+
+    // Listener para cambios en el tipo de feriado
+    document.addEventListener('holiday-type-change', ((e: CustomEvent) => {
+      activeTypeFilter = e.detail.type;
+      filterCards();
+    }) as EventListener);
+
+    // Listener para cambios en el mes
+    document.addEventListener('holiday-month-change', ((e: CustomEvent) => {
+      activeMonthFilter = e.detail.month;
+      filterCards();
+    }) as EventListener);
+
+    // Listener para búsqueda
+    document.addEventListener('holiday-search-change', ((e: CustomEvent) => {
+      activeSearchQuery = e.detail.query;
+      filterCards();
+    }) as EventListener);
+
+    // Listener para reset de filtros
+    document.addEventListener('holiday-filters-reset', () => {
+      activeTypeFilter = null;
+      activeMonthFilter = null;
+      activeSearchQuery = '';
+      filterCards();
+    });
+  });
+</script>

@@ -1,24 +1,29 @@
 import { Months } from "../../utils/dates/months.ts";
 import { GoCalendar } from "react-icons/go";
 import type { ChangeEvent } from "react";
-import { holidaysMonth, querySearch, searchHolidays } from "../../store/holidaysStore.ts";
-import { useStore } from "@nanostores/react";
 import { SelectInput } from "../share/general/SelectInput.tsx";
+import { useState, useEffect } from "react";
 
 export const SelectHolidayMonth = () => {
-  const $query = useStore(querySearch);
-  const $month = useStore(holidaysMonth);
+  const [month, setMonth] = useState<string>("");
+
+  useEffect(() => {
+    const handleReset = () => {
+      setMonth("");
+    };
+    document.addEventListener('holiday-filters-reset', handleReset);
+    return () => document.removeEventListener('holiday-filters-reset', handleReset);
+  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value.trim();
+    setMonth(value);
 
     if (value === "") {
-      holidaysMonth.set(null);
+      document.dispatchEvent(new CustomEvent('holiday-month-change', { detail: { month: null } }));
     } else {
-      holidaysMonth.set(parseInt(value, 10));
+      document.dispatchEvent(new CustomEvent('holiday-month-change', { detail: { month: parseInt(value, 10) } }));
     }
-
-    searchHolidays($query);
   };
 
   const monthOptions = Object.entries(Months).map(([_, { label, number }]) => ({
@@ -31,7 +36,7 @@ export const SelectHolidayMonth = () => {
       id="month"
       name="month"
       label="Selecciona un mes"
-      value={$month?.toString() ?? ""}
+      value={month}
       options={monthOptions}
       onChange={handleChange}
       icon={<GoCalendar size={22} />}

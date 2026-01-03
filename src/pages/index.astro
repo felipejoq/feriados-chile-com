@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 import CardShowStatus from "../components/status-card/CardShowStatus.astro";
 import CardShowStatusFallback from "../components/fallbacks/CardShowStatusFallback.astro";
 import Filters from "../components/filter-form/Filters.astro";
-import {HolidayList} from "../components/holidays/HolidayList";
+import HolidayListStatic from "../components/holidays/HolidayListStatic.astro";
 import {FilterFallback} from "../components/fallbacks/FilterFallback";
 ---
 <MainLayout>
@@ -13,5 +13,5 @@ import {FilterFallback} from "../components/fallbacks/FilterFallback";
     <Filters server:defer>
         <FilterFallback slot="fallback"/>
     </Filters>
-    <HolidayList client:only="react"/>
+    <HolidayListStatic />
 </MainLayout>

@@ -1,9 +1,8 @@
-import { useStore } from "@nanostores/react";
 import { HolidayTypes } from "../../interfaces/holidays/holiday-types.ts";
 import { GoTasklist } from "react-icons/go";
 import type { ChangeEvent } from "react";
-import { holidaysType, searchHolidays } from "../../store/holidaysStore.ts";
 import { SelectInput } from "../share/general/SelectInput.tsx";
+import { useState, useEffect } from "react";
 
 const typeColorSquare = (type: HolidayTypes): string => {
   switch (type) {
@@ -21,18 +20,25 @@ const typeColorSquare = (type: HolidayTypes): string => {
 };
 
 export const SelectHolidayType = () => {
-  const $type = useStore(holidaysType);
+  const [type, setType] = useState<string>("");
+
+  useEffect(() => {
+    const handleReset = () => {
+      setType("");
+    };
+    document.addEventListener('holiday-filters-reset', handleReset);
+    return () => document.removeEventListener('holiday-filters-reset', handleReset);
+  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
+    setType(value);
 
     if (value === "") {
-      holidaysType.set(null);
+      document.dispatchEvent(new CustomEvent('holiday-type-change', { detail: { type: null } }));
     } else {
-      holidaysType.set(value as HolidayTypes);
+      document.dispatchEvent(new CustomEvent('holiday-type-change', { detail: { type: value as HolidayTypes } }));
     }
-
-    searchHolidays();
   };
 
   const holidayTypeOptions = Object.entries(HolidayTypes).map(([_, value]) => ({
@@ -45,7 +51,7 @@ export const SelectHolidayType = () => {
       id="type"
       label="Selecciona un tipo de feriado"
       name="type"
-      value={$type ?? ""}
+      value={type}
       onChange={handleChange}
       icon={<GoTasklist size={22} />}
       placeholder="Todos los tipos"

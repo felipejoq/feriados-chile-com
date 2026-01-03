@@ -1,10 +1,7 @@
-import {type MouseEvent} from "react";
-import {resetFilters} from "../../store/holidaysStore.ts";
-
 export const ButtonResetFilters = () => {
 
   const handleClick = (): void => {
-    resetFilters();
+    document.dispatchEvent(new CustomEvent('holiday-filters-reset'));
   }
 
   return (
