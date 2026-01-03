@@ -29,7 +29,7 @@ export const dayjsChile = (date?: string | Date | dayjs.Dayjs | null) => {
 export const now = () => dayjs().tz(CHILE_TIMEZONE);
 
 export const fromISO = (isoString: string) => {
-  return dayjs(isoString).tz(CHILE_TIMEZONE);
+  return dayjs.tz(isoString, 'YYYY-MM-DD', CHILE_TIMEZONE);
 };
 
 export const fromJSDate = (date: Date) => {
