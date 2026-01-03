@@ -101,6 +101,24 @@ const getCardBorderClass = (type: HolidayTypes): string => {
   <p id="no-results-message" class="text-center text-gray-500 hidden">No hay feriados para mostrar.</p>
 </div>
 
+<!-- JSON-LD Schema para feriados -->
+{holidays.map((holiday) => (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": holiday.description || "Feriado",
+    "startDate": holiday.date || "",
+    "endDate": holiday.date || "",
+    "description": `${holiday.description} - Tipo: ${holiday.type}. Respaldo legal: ${holiday.legalSupport}`,
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Chile"
+    },
+    "url": holiday.slug ? `https://feriados-chile.com${holiday.slug}` : "https://feriados-chile.com"
+  })}></script>
+))}
+
 <script>
   // JavaScript vanilla para filtros - Progressive Enhancement
   let allCards: NodeListOf<HTMLElement>;
