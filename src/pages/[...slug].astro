@@ -30,39 +30,87 @@ const {Content} = await article.render();
         socialImage={article.data.image}
 >
     <Navbar client:load linkList={linkList} />
-    <main class="w-full flex flex-col items-center justify-center mt-6 mb-12">
+    <main class="w-full flex flex-col items-center justify-center mb-12">
 
-        <article class="prose prose-lg md:prose-xl prose-slate
-        prose-h1:text-2xl prose-h1:mb-4 prose-h1:mt-0
-        prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3
-        prose-h3:text-lg prose-h3:mt-5 prose-h3:mb-2
-        max-w-3xl w-full px-6 py-10 bg-white rounded-xl shadow-md"
-        >
-            <!-- Imagen destacada -->
-            <picture>
+        <!-- Imagen hero como fondo/overlay -->
+        <div class="w-full relative">
+            <picture class="block w-full">
                 <img
                         src={article.data.image}
-                        alt={article.data.title}
-                        class="w-full h-auto object-cover rounded-xl mb-6 shadow max-h-96 aspect-[1200/686]"
+                        alt={article.data.alt_text || article.data.title}
+                        class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
                 />
             </picture>
+            <!-- Gradiente oscuro para mejor contraste -->
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40"></div>
+        </div>
 
-            <!-- Título -->
-            <header class="text-center">
-                <h1 class="!mb-6">
-                  {article.data.title}
-                </h1>
-            </header>
+        <!-- Artículo incrustado sobre la imagen -->
+        <article class="prose prose-base sm:prose-lg md:prose-xl prose-slate
+        prose-h1:text-2xl sm:prose-h1:text-3xl prose-h1:font-extrabold prose-h1:mb-6 prose-h1:mt-0 prose-h1:leading-tight
+        prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4 prose-h2:text-gray-800
+        prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3 prose-h3:text-gray-700
+        prose-p:text-gray-600 prose-p:leading-relaxed prose-p:mb-4
+        prose-a:text-emerald-600 prose-a:font-medium prose-a:no-underline prose-a:transition-colors
+        prose-strong:text-gray-800 prose-strong:font-semibold
+        prose-ul:my-6 prose-li:text-gray-600 prose-li:leading-relaxed
+        prose-img:rounded-xl prose-img:shadow-lg
+        max-w-4xl w-full px-4 sm:px-6
+        -mt-16 sm:-mt-20 md:-mt-24 relative z-10
+        [&_a:hover]:underline [&_a:hover]:text-emerald-700"
+        >
 
-            <!-- Contenido del artículo -->
-            <Content/>
+            <!-- Contenedor con padding y fondo - incrustado sobre imagen -->
+            <div class="px-4 sm:px-8 md:px-12 py-8 bg-white rounded-2xl shadow-2xl border border-gray-100">
+                <!-- Título -->
+                <header class="mb-8">
+                    <h1 class="!mb-0 text-center sm:text-left">
+                      {article.data.title}
+                    </h1>
+                </header>
 
-            <!-- Enlace de regreso -->
-            <footer class="mt-12 flex justify-end text-sm">
-                <a href="/" class="text-gray-600 hover:bg-gray-400 hover:text-white text-lg border border-gray-500 px-4 py-1 rounded-lg no-underline transition-all">
-                    ← Volver al inicio
-                </a>
-            </footer>
+                <!-- Contenido del artículo -->
+                <div class="article-content">
+                    <Content/>
+                </div>
+
+                <!-- Metadata del artículo -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            {new Date(article.data.date).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                            </svg>
+                            <a href="https://feriados-chile.com/" class="text-emerald-600 hover:text-emerald-700 transition-colors">feriados-chile.com</a>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Enlace de regreso mejorado -->
+                <footer class="mt-6 pt-6 border-t border-gray-200 flex justify-between items-center flex-wrap gap-4">
+                    <a href="/" class="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors no-underline group">
+                        <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Volver al inicio
+                    </a>
+                    <div class="flex gap-2">
+                        <button 
+                            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+                            class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                            aria-label="Volver arriba"
+                        >
+                            ↑ Arriba
+                        </button>
+                    </div>
+                </footer>
+            </div>
         </article>
     </main>
 </MainLayout>
