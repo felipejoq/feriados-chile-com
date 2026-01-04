@@ -4,7 +4,7 @@ description: "Explora el significado del Sábado Santo en Chile, parte esencial 
 keywords: ["Sábado Santo Chile", "Semana Santa Chile", "feriado religioso Chile", "qué se celebra Sábado Santo"]  
 date: "2025-04-18"  
 author: "Felipe Jofré Quevedo"  
-image: "/assets/images/sabado-santo-chile-semana-santa.webp"  
+image: "https://media.feriados-chile.com/assets/images/sabado-santo-chile-semana-santa.webp"  
 alt_text: "Iglesia en silencio durante el Sábado Santo en Chile"  
 slug: "sabado-santo-en-chile-semana-santa"
 ---

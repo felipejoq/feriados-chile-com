@@ -4,7 +4,7 @@ description: "✅ Conoce la importancia y significado del Día Nacional de los P
 keywords: ["feriado 20 junio Chile", "Día Nacional de los Pueblos Indígenas", "solsticio de invierno", "cultura indígena"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-el-20-de-junio.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-20-de-junio.jpg"
 alt_text: "Celebración del Día Nacional de los Pueblos Indígenas"
 slug: "por-que-es-feriado-el-20-de-junio-en-chile"
 ---

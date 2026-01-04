@@ -4,7 +4,7 @@ description: "✅ Conoce la importancia del 18 de septiembre en Chile, Día de l
 keywords: ["feriado 18 septiembre Chile", "Día de la Independencia", "Fiestas Patrias Chile", "celebraciones culturales"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-en-chile-el-18-de-septiembre.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-en-chile-el-18-de-septiembre.jpg"
 alt_text: "Celebración del Día de la Independencia en Chile"
 slug: "por-que-es-feriado-el-18-de-septiembre-en-chile"
 ---

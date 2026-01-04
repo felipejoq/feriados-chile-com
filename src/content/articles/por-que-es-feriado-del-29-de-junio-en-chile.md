@@ -4,7 +4,7 @@ description: "✅ Conoce la importancia y tradiciones del feriado del 29 de juni
 keywords: ["feriado 29 junio Chile", "Día de San Pedro y San Pablo", "celebraciones religiosas", "tradiciones chilenas"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-el-16-de-julio-en-chile.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-16-de-julio-en-chile.jpg"
 alt_text: "Celebración del Día de San Pedro y San Pablo en Chile"
 slug: "por-que-es-feriado-del-29-de-junio-en-chile"
 ---

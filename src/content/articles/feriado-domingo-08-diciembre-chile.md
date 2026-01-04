@@ -4,7 +4,7 @@ description: "😱 Explora el significado y origen del feriado del 8 de diciembr
 keywords: ["feriado 8 diciembre Chile", "Inmaculada Concepción Chile", "feriados religiosos en Chile", "por qué es feriado 8 diciembre"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-el-08-de-diciembre-en-chile.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-08-de-diciembre-en-chile.jpg"
 alt_text: "Imagen de la Virgen María representando el feriado de la Inmaculada Concepción el 8 de diciembre en Chile"
 slug: "feriado-domingo-08-diciembre-chile"
 ---

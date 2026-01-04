@@ -4,7 +4,7 @@ description: "✅ Explora el origen y significado del feriado del 27 de noviembr
 keywords: ["feriado 27 noviembre Chile", "Segunda Vuelta Gobernadores Regionales", "feriado elecciones Chile", "por qué es feriado 27 noviembre"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-segunda-vuelta-votaciones-chile.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-segunda-vuelta-votaciones-chile.jpg"
 alt_text: "Imagen representando el feriado del 27 de noviembre en Chile debido a las elecciones de segunda vuelta de gobernadores regionales"
 slug: "feriado-el-27-de-noviembre-chile"
 ---

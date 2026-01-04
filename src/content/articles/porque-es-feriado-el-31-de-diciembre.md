@@ -4,7 +4,7 @@ description: "Descubre el motivo del feriado bancario del 31 de diciembre en Chi
 keywords: ["feriado 31 diciembre Chile", "feriado bancario 31 diciembre", "por qué es feriado el 31 de diciembre", "significado feriado 31 diciembre Chile"]
 date: "2024-12-12"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-el-31-de-diciembre.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-31-de-diciembre.jpg"
 alt_text: "Imagen del feriado bancario del 31 de diciembre en Chile"
 slug: "porque-es-feriado-el-31-de-diciembre"
 ---

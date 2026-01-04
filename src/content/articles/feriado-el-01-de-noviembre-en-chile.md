@@ -4,7 +4,7 @@ description: "✨ Explora el significado y origen del feriado del 1 de noviembre
 keywords: ["feriado 1 noviembre Chile", "Día de Todos los Santos Chile", "feriados religiosos en Chile", "por qué es feriado 1 noviembre"]  
 date: "2024-10-26"  
 author: "Felipe Jofré Quevedo"  
-image: "/assets/images/feriado-todos-los-santos-chile-1-de-noviembre.jpg"  
+image: "https://media.feriados-chile.com/assets/images/feriado-todos-los-santos-chile-1-de-noviembre.jpg"  
 alt_text: "Imagen del Día de Todos los Santos representando el feriado del 1 de noviembre en Chile"  
 slug: "feriado-el-01-de-noviembre-en-chile"
 ---

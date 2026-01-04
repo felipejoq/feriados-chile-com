@@ -4,7 +4,7 @@ description: "Conoce el significado del Viernes Santo en Chile, una fecha clave 
 keywords: ["Viernes Santo Chile", "Semana Santa Chile", "feriado religioso Chile", "por qué es feriado Viernes Santo"]  
 date: "2025-04-17"  
 author: "Felipe Jofré Quevedo"  
-image: "/assets/images/viernes-santo-en-chile-semana-santa.webp"  
+image: "https://media.feriados-chile.com/assets/images/viernes-santo-en-chile-semana-santa.webp"  
 alt_text: "Procesión religiosa del Viernes Santo en Chile durante Semana Santa"  
 slug: "viernes-santo-en-chile-semana-santa"
 ---

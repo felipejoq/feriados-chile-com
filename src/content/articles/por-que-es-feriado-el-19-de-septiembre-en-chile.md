@@ -4,7 +4,7 @@ description: "✅ Conoce la importancia del 19 de septiembre en Chile, el Día d
 keywords: ["Día de las Glorias del Ejército", "feriado 19 septiembre Chile", "celebraciones patrióticas", "importancia Fuerzas Armadas"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/por-que-es-feriado-el-19-de-septiembre-en-chile.jpg"
+image: "https://media.feriados-chile.com/assets/images/por-que-es-feriado-el-19-de-septiembre-en-chile.jpg"
 alt_text: "Celebración del Día de las Glorias del Ejército en Chile"
 slug: "por-que-es-feriado-el-19-de-septiembre-en-chile"
 ---

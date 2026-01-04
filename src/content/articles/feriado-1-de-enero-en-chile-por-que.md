@@ -4,7 +4,7 @@ description: "🎆 Descubre el significado, respaldo legal y tradiciones del fer
 keywords: ["Año Nuevo Chile", "feriado 1 enero Chile", "celebraciones año nuevo Chile", "por qué es feriado año nuevo"]  
 date: "2024-12-31"  
 author: "Felipe Jofré Quevedo"  
-image: "/assets/images/ano-nuevo-chile-1-de-enero.webp"  
+image: "https://media.feriados-chile.com/assets/images/ano-nuevo-chile-1-de-enero.webp"  
 alt_text: "Fuegos artificiales celebrando el Año Nuevo en Chile"  
 slug: "ano-nuevo-en-chile-1-de-enero"
 ---

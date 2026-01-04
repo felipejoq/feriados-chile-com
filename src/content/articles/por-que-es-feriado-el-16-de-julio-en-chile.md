@@ -4,7 +4,7 @@ description: "✅ Explora el significado histórico y cultural de la Fiesta de l
 keywords: ["feriado 16 julio Chile", "Fiesta de la Virgen del Carmen", "patrona de Chile", "celebraciones culturales"]
 date: "2024-10-26"
 author: "Felipe Jofré Quevedo"
-image: "/assets/images/porque-es-feriado-el-16-de-julio-en-chile.jpg"
+image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-16-de-julio-en-chile.jpg"
 alt_text: "Celebración de la Virgen del Carmen en Chile"
 slug: "por-que-es-feriado-el-16-de-julio-en-chile"
 ---
