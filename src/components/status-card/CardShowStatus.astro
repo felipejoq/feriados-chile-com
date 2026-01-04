@@ -3,15 +3,23 @@ import HolidayStatus from "./HolidayStatus.astro";
 import NextHoliday from "./NextHoliday.astro";
 import {actions} from "astro:actions";
 import {getTodayDateChile} from "../../utils/dates/date";
+import { isCacheValid, getCachedData, setCacheData } from "../../utils/cache/holidayCache";
 
-const {
-    data,
-    error
-} = await Astro.callAction(actions.TodayIsHoliday, (getTodayDateChile()));
+const today = getTodayDateChile();
 
-if (error) {
-    console.log(error)
-    throw new Error(error.message)
+let data;
+if (isCacheValid(today)) {
+  data = getCachedData();
+} else {
+  const { data: actionData, error } = await Astro.callAction(actions.TodayIsHoliday, today);
+
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+  
+  setCacheData(actionData, today);
+  data = actionData;
 }
 
 const {isHoliday, holidays} = data;
