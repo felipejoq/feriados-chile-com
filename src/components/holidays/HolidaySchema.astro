@@ -15,12 +15,32 @@ const schema = {
   "endDate": holiday.date || "",
   "description": `${holiday.description} - Tipo: ${holiday.type}. Respaldo legal: ${holiday.legalSupport}`,
   "eventStatus": "https://schema.org/EventScheduled",
+  "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug}` : "https://feriados-chile.com",
   "location": {
     "@type": "Place",
-    "name": "Chile"
+    "name": "Chile",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "CL"
+    }
   },
-  "url": holiday.slug ? `https://feriados-chile.com${holiday.slug}` : "https://feriados-chile.com"
+  "organizer": {
+    "@type": "Organization",
+    "name": "Gobierno de Chile",
+    "url": "https://www.gob.cl"
+  },
+  "image": holiday.icon ? `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><text x="50%" y="50%" font-size="100" text-anchor="middle" dominant-baseline="middle">${holiday.icon}</text></svg>` : undefined,
+  "offers": {
+    "@type": "Offer",
+    "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug}` : "https://feriados-chile.com",
+    "price": "0",
+    "priceCurrency": "CLP",
+    "availability": "https://schema.org/PreOrder"
+  }
 };
+
+// Filtrar valores undefined
+const cleanSchema = JSON.parse(JSON.stringify(schema));
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+<script type="application/ld+json" set:html={JSON.stringify(cleanSchema)}></script>
