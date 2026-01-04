@@ -1,4 +1,4 @@
-import { z, defineCollection } from 'astro:content';
+import { z, defineCollection, reference } from 'astro:content';
 import {HolidayTypes} from "../interfaces/holidays/holiday-types.ts";
 
 const articleCollection = defineCollection({
@@ -25,6 +25,7 @@ const holidaysCollection = defineCollection({
         slug: z.string().optional(),
         date: z.string().nullable().optional(),
         icon: z.string().optional(),
+        article: reference('articles').optional(),
     }),
 });
 

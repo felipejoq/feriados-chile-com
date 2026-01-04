@@ -9,4 +9,5 @@ export type Holiday = {
   slug?: string;
   date: string | undefined;
   icon?: string;
+  article?: any;
 }

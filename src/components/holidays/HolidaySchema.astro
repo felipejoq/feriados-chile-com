@@ -1,11 +1,25 @@
 ---
 import type { Holiday } from "../../interfaces/holidays/holiday.ts";
+import { SITE_IMAGE } from "../../utils/config/globals.ts";
 
 interface Props {
   holiday: Holiday & { id: string };
 }
 
 const { holiday } = Astro.props;
+
+let imageUrl: string | undefined;
+
+if (holiday.article && typeof holiday.article === 'object' && 'data' in holiday.article) {
+  const articleImage = (holiday.article as any).data?.image;
+  if (articleImage) {
+    imageUrl = articleImage.startsWith('http') 
+      ? articleImage 
+      : `https://feriados-chile.com${articleImage}`;
+  }
+}
+
+imageUrl = imageUrl || (SITE_IMAGE.src ? `https://feriados-chile.com${SITE_IMAGE.src}` : undefined);
 
 const schema = {
   "@context": "https://schema.org",
@@ -16,6 +30,7 @@ const schema = {
   "description": `${holiday.description} - Tipo: ${holiday.type}. Respaldo legal: ${holiday.legalSupport}`,
   "eventStatus": "https://schema.org/EventScheduled",
   "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug}` : "https://feriados-chile.com",
+  "image": imageUrl,
   "location": {
     "@type": "Place",
     "name": "Chile",
@@ -29,7 +44,6 @@ const schema = {
     "name": "Gobierno de Chile",
     "url": "https://www.gob.cl"
   },
-  "image": holiday.icon ? `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><text x="50%" y="50%" font-size="100" text-anchor="middle" dominant-baseline="middle">${holiday.icon}</text></svg>` : undefined,
   "offers": {
     "@type": "Offer",
     "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug}` : "https://feriados-chile.com",
