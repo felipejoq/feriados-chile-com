@@ -91,20 +91,42 @@ export const getDaysUntilHoliday = (holidayDate: string): number => {
 };
 
 // Calcular el porcentaje de progreso hasta un feriado
-// Retorna un número entre 0 y 100 representando qué tan cerca está el feriado
-export const getProgressPercentage = (holidayDate: string): number => {
-  const daysRemaining = getDaysUntilHoliday(holidayDate);
+// Usa el último feriado como punto de partida (0%) y el próximo como meta (100%)
+// Ejemplo: Último feriado = 1 enero, Próximo = 3 abril (92 días)
+// - Día 1 enero = 0%, Día 15 febrero = 50%, Día 3 abril = 100%
+export const getProgressPercentage = (holidayDate: string, lastHolidayDate?: string): number => {
+  const today = now();
+  const holiday = fromISO(holidayDate);
+  
+  const todayFormatted = today.format('YYYY-MM-DD');
+  const holidayFormatted = holiday.format('YYYY-MM-DD');
+  
+  const todayTime = new Date(todayFormatted + 'T00:00:00').getTime();
+  const holidayTime = new Date(holidayFormatted + 'T00:00:00').getTime();
   
   // Si el feriado ya pasó o es hoy, retornar 100
+  const daysRemaining = Math.ceil((holidayTime - todayTime) / (1000 * 60 * 60 * 24));
   if (daysRemaining <= 0) {
     return 100;
   }
   
-  // Usar una ventana de 30 días como referencia máxima
-  // Si faltan más de 30 días, usar 30 como denominador
-  const referenceWindow = 30;
-  const daysPassed = Math.max(0, referenceWindow - daysRemaining);
-  const percentage = Math.round((daysPassed / referenceWindow) * 100);
+  // Si tenemos fecha del último feriado, usarla como punto inicial
+  // Si no, usar como referencia los últimos 90 días antes del próximo feriado
+  let startTime: number;
+  if (lastHolidayDate) {
+    const lastHoliday = fromISO(lastHolidayDate);
+    startTime = new Date(lastHoliday.format('YYYY-MM-DD') + 'T00:00:00').getTime();
+  } else {
+    // Por defecto, asumimos un período máximo de 90 días
+    startTime = holidayTime - (90 * 24 * 60 * 60 * 1000);
+  }
   
+  // Calcular el progreso: días transcurridos / días totales del período
+  const totalDays = Math.ceil((holidayTime - startTime) / (1000 * 60 * 60 * 24));
+  const daysPassed = Math.ceil((todayTime - startTime) / (1000 * 60 * 60 * 24));
+  
+  const percentage = Math.round((daysPassed / totalDays) * 100);
+  
+  // Asegurar que esté entre 0 y 100
   return Math.min(Math.max(percentage, 0), 100);
 };

@@ -33,7 +33,7 @@ const { isHoliday, message, holidays } = data;
         <ul class="flex flex-col gap-2">
           {holidays.map((holiday, index) => (
             <li 
-              class="group cursor-pointer transition-all duration-300"
+              class={`group transition-all duration-300 ${holiday.slug ? 'cursor-pointer' : ''}`}
               style={{
                 animation: `slideIn 0.4s ease-out ${index * 0.1}s backwards`
               }}

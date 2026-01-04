@@ -21,57 +21,65 @@ const holidayIcon = isHoliday && holidays?.[0]?.icon ? holidays[0].icon : (isHol
 <section class="my-8">
     <div
       class={`
-        rounded-2xl px-8 py-8 flex flex-col gap-6
-        backdrop-blur-sm border-2 transition-all duration-300 hover:shadow-lg
+        rounded-3xl px-4 py-4 sm:px-6 sm:py-6 flex flex-col gap-4
+        border transition-all duration-300
         ${isHoliday
-          ? "border-emerald-400 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 shadow-lg shadow-emerald-200/50"
-          : "border-amber-400 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 shadow-lg shadow-amber-200/50"
+          ? "border-emerald-200/50 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 shadow-sm shadow-emerald-100/50 hover:shadow-md hover:shadow-emerald-100"
+          : "border-amber-200/50 bg-gradient-to-br from-amber-50/80 to-orange-50/80 shadow-sm shadow-amber-100/50 hover:shadow-md hover:shadow-amber-100"
         }
       `}
     >
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class={`text-3xl font-bold flex gap-3 items-center
-                    ${isHoliday ? "text-emerald-700" : "text-amber-700"}
+        <!-- Header simplificado -->
+        <div class="flex items-center gap-4">
+            <div class={`
+                flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl
+                ${isHoliday 
+                    ? "bg-emerald-100/80 text-emerald-600" 
+                    : "bg-amber-100/80 text-amber-600"
+                }
+            `}>
+                <span class="text-2xl sm:text-3xl">{holidayIcon}</span>
+            </div>
+            <div class="flex-1">
+                <h2 class={`text-base sm:text-xl font-bold
+                    ${isHoliday ? "text-emerald-800" : "text-amber-800"}
                 `}>
-                    <span class="text-4xl">
-                        {holidayIcon}
-                    </span>
-                    <span>Estado Actual</span>
+                    {isHoliday ? "Estado del día" : "Estado del día"}
                 </h2>
-                <p class={`text-sm mt-2 ${isHoliday ? "text-emerald-600" : "text-amber-600"}`}>
-                    {isHoliday ? "¡Qué día especial!" : "Sigue contando los días..."}
+                <p class={`text-xs sm:text-sm mt-0.5 ${isHoliday ? "text-emerald-600" : "text-amber-600"}`}>
+                    {isHoliday ? "Disfruta tu día libre" : "Próximo feriado"}
                 </p>
             </div>
         </div>
 
-        <div class="space-y-6">
+        <!-- Contenido -->
+        <div class="space-y-4">
             <div class={`
-                rounded-xl p-5 transition-all duration-300
+                rounded-2xl p-4 sm:p-5 transition-all duration-300
                 ${isHoliday
-                  ? "bg-white/60 border border-emerald-200 shadow-sm hover:shadow-md hover:bg-white/80"
-                  : "bg-white/60 border border-amber-200 shadow-sm hover:shadow-md hover:bg-white/80"
+                  ? "bg-white/70 border border-emerald-100/50 hover:bg-white/90"
+                  : "bg-white/70 border border-amber-100/50 hover:bg-white/90"
                 }
             `}>
                 <HolidayStatus server:defer>
-                    <div class="flex items-center gap-2 mb-2 text-gray-600">
-                        <span class="text-xl">⏳</span>
-                        <p>Buscando en el calendario...</p>
+                    <div class="flex items-center gap-2 text-gray-500 text-sm">
+                        <span class="text-lg">⏳</span>
+                        <p>Verificando calendario...</p>
                     </div>
                 </HolidayStatus>
             </div>
 
             <div class={`
-                rounded-xl p-5 transition-all duration-300
+                rounded-2xl p-4 sm:p-5 transition-all duration-300
                 ${isHoliday
-                  ? "bg-white/60 border border-emerald-200 shadow-sm hover:shadow-md hover:bg-white/80"
-                  : "bg-white/60 border border-amber-200 shadow-sm hover:shadow-md hover:bg-white/80"
+                  ? "bg-white/70 border border-emerald-100/50 hover:bg-white/90"
+                  : "bg-white/70 border border-amber-100/50 hover:bg-white/90"
                 }
             `}>
                 <NextHoliday server:defer>
-                    <div class="flex items-center gap-2 text-gray-600">
-                        <span class="text-xl">🔍</span>
-                        <p>Buscando siguiente feriado...</p>
+                    <div class="flex items-center gap-2 text-gray-500 text-sm">
+                        <span class="text-lg">🔍</span>
+                        <p>Buscando próximo feriado...</p>
                     </div>
                 </NextHoliday>
             </div>
