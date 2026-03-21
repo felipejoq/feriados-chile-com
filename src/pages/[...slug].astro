@@ -125,20 +125,9 @@ const breadcrumbSchema = {
         <Navbar client:load linkList={linkList} />
     </div>
 
-    <!-- Breadcrumb visible -->
-    <nav aria-label="Breadcrumb" class="container mx-auto px-3 sm:px-4 max-w-4xl mb-2">
-        <ol class="flex items-center gap-1.5 text-sm text-gray-500">
-            <li>
-                <a href="/" class="hover:text-emerald-600 transition-colors">Inicio</a>
-            </li>
-            <li aria-hidden="true" class="select-none">/</li>
-            <li class="truncate text-gray-700 font-medium">{article.data.title}</li>
-        </ol>
-    </nav>
-
     <div class="w-full flex flex-col items-center mb-12">
 
-        <!-- Hero image full-bleed -->
+        <!-- Hero image full-bleed con breadcrumb superpuesto -->
         <div class="w-full relative">
             <picture class="block w-full">
                 <img
