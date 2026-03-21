@@ -1,0 +1,107 @@
+---
+import { longDate } from "../../utils/dates/date.ts";
+import { HolidayTypes } from "../../interfaces/holidays/holiday-types.ts";
+
+interface HolidayOccurrence {
+  year: number;
+  date: string | undefined | null;
+}
+
+interface Props {
+  description?: string;
+  type: HolidayTypes;
+  irrenunciable: boolean;
+  legalSupport: string;
+  beneficiaries?: string;
+  icon?: string;
+  occurrences: HolidayOccurrence[];
+}
+
+const { description, type, irrenunciable, legalSupport, beneficiaries, icon, occurrences } = Astro.props;
+
+const borderColor: Record<string, string> = {
+  [HolidayTypes.Civil]: "border-t-blue-500",
+  [HolidayTypes.Religious]: "border-t-purple-500",
+  [HolidayTypes.Local]: "border-t-green-500",
+  [HolidayTypes.Special]: "border-t-yellow-500",
+};
+
+const typeBadgeColor: Record<string, string> = {
+  [HolidayTypes.Civil]: "bg-blue-100 text-blue-800",
+  [HolidayTypes.Religious]: "bg-purple-100 text-purple-800",
+  [HolidayTypes.Local]: "bg-green-100 text-green-800",
+  [HolidayTypes.Special]: "bg-yellow-100 text-yellow-800",
+};
+
+const border = borderColor[type] ?? "border-t-gray-400";
+const badge = typeBadgeColor[type] ?? "bg-gray-100 text-gray-700";
+
+const sortedOccurrences = [...occurrences].sort((a, b) => b.year - a.year).slice(0, 3);
+---
+
+<aside class={`not-prose border border-t-4 ${border} border-gray-200 rounded-xl bg-slate-50 overflow-hidden mb-8`}>
+
+  <!-- Header -->
+  <div class="px-4 sm:px-6 pt-5 sm:pt-6 pb-4 sm:pb-5">
+    <p class="text-sm sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 sm:mb-4">
+      Datos del feriado
+    </p>
+    <div class="flex items-start gap-3 sm:gap-4">
+      {icon && (
+        <span class="text-4xl sm:text-5xl leading-none mt-0.5 shrink-0" role="img" aria-hidden="true">{icon}</span>
+      )}
+      <div class="flex-1 min-w-0">
+        <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 leading-snug">{description}</h2>
+        <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+          <span class={`inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-sm font-semibold ${badge}`}>
+            {type}
+          </span>
+          <span class={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-sm font-semibold ${irrenunciable ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`}>
+            {irrenunciable ? (
+              <>🔒 Irrenunciable</>
+            ) : (
+              <>Renunciable</>
+            )}
+          </span>
+          {beneficiaries && (
+            <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+              📍 {beneficiaries}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fechas por año -->
+  {sortedOccurrences.length > 0 && (
+    <div class="border-t border-gray-200 px-4 sm:px-6 py-4 sm:py-5">
+      <p class="text-sm sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 sm:mb-4">
+        📅 Cuándo se celebra
+      </p>
+      <div class="flex flex-col gap-2.5 sm:gap-3">
+        {sortedOccurrences.map(({ year, date }) => (
+          <div class="flex items-center gap-2 sm:gap-3">
+            <span class="text-sm font-bold text-gray-400 w-12 shrink-0">{year}</span>
+            <div class="h-px flex-1 bg-gray-200"></div>
+            <span class="text-base font-medium text-gray-700 text-right">
+              {date ? longDate(date) : <span class="text-gray-400 italic text-sm">fecha variable</span>}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Respaldo legal -->
+  <div class="border-t border-gray-200 bg-white px-4 sm:px-6 py-3 sm:py-4">
+    <p class="text-sm text-gray-500 flex items-start gap-2">
+      <span class="shrink-0 mt-0.5">⚖️</span>
+      <span>
+        <strong class="text-gray-600 font-semibold">Respaldo legal:</strong>{" "}
+        {legalSupport}
+      </span>
+    </p>
+  </div>
+
+</aside>

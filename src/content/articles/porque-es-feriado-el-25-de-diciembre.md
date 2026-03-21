@@ -3,7 +3,7 @@ title: "Porqué es feriado el 25 de diciembre 🎅🎄"
 description: "?? Descubre el significado y origen del feriado del 25 de diciembre en Chile, dedicado a la Navidad, y su impacto en la cultura y tradiciones del país."
 keywords: ["feriado 25 diciembre Chile", "Navidad en Chile", "por qué es feriado 25 diciembre", "significado feriado 25 diciembre"] 
 date: "2024-12-12"  
-author: "Felipe Jofré Quevedo"  
+author: "feriados-chile.com"  
 image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-25-de-diciembre.jpg"  
 alt_text: "Imagen del feriado del 25 de diciembre en Chile"  
 slug: "porque-es-feriado-el-25-de-diciembre" 

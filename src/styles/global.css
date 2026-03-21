@@ -15,7 +15,7 @@
 }
 
 body {
-  @apply overflow-y-auto bg-gray-100 min-h-dvh;
+  @apply overflow-x-hidden overflow-y-auto bg-gray-100 min-h-dvh;
 }
 
 .active {

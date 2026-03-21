@@ -3,7 +3,7 @@ title: "👉 ¿Por qué es Feriado el 12 de Octubre en Chile?"
 description: "✨ Descubre el significado histórico y cultural del 12 de octubre en Chile, ✅ conocido como el Día del Encuentro de Dos Mundos. Conoce cómo este feriado celebra la diversidad cultural y el encuentro entre Europa y América."
 keywords: ["feriado 12 octubre Chile", "Día del Encuentro de Dos Mundos", "feriado cultural Chile", "por qué es feriado 12 octubre"]
 date: "2024-10-26"
-author: "Felipe Jofré Quevedo"
+author: "feriados-chile.com"
 image: "https://media.feriados-chile.com/assets/images/por-que-es-feriado-el-12-de-octubre-en-chile.jpg"
 alt_text: "Celebración del Día del Encuentro de Dos Mundos en Chile"
 slug: "por-que-es-feriado-el-12-de-octubre-en-chile"

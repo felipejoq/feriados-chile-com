@@ -5,7 +5,7 @@ import Footer from "../components/share/Footer.astro";
 import {SITE_AUTHOR, SITE_IMAGE} from "../utils/config/globals";
 import {linkList} from "../utils/data/links-archive";
 import {Navbar} from "../components/share/Navbar";
-import { ClientRouter } from 'astro:transitions';
+
 
 interface Props {
   year: number;
@@ -36,8 +36,6 @@ const {
 
     <meta name="description" content={description}/>
     <meta name="author" content={SITE_AUTHOR}/>
-
-    <ClientRouter />
 
     <title>{title}</title>
 

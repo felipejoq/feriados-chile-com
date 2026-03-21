@@ -3,7 +3,7 @@ title: "🎉 Año Nuevo en Chile: Celebraciones del 1 de Enero"
 description: "🎆 Descubre el significado, respaldo legal y tradiciones del feriado de Año Nuevo en Chile. Conoce cómo se celebra el 1 de enero, su origen, costumbres populares y datos interesantes sobre esta fecha tan esperada. 🇨🇱"
 keywords: ["Año Nuevo Chile", "feriado 1 enero Chile", "celebraciones año nuevo Chile", "por qué es feriado año nuevo"]  
 date: "2024-12-31"  
-author: "Felipe Jofré Quevedo"  
+author: "feriados-chile.com"  
 image: "https://media.feriados-chile.com/assets/images/ano-nuevo-chile-1-de-enero.webp"  
 alt_text: "Fuegos artificiales celebrando el Año Nuevo en Chile"  
 slug: "ano-nuevo-en-chile-1-de-enero"

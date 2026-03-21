@@ -3,7 +3,7 @@ title: "✊ Día Nacional del Trabajo en Chile"
 description: "✊ Conoce el significado del Día Nacional del Trabajo en Chile, su respaldo legal, por qué es feriado irrenunciable y cómo se vive el 1 de mayo. Historia, derechos laborales y contexto actual en un solo lugar. 🇨🇱"
 keywords: ["Día del Trabajo Chile","1 de mayo feriado Chile","feriado irrenunciable 1 de mayo","Día Nacional del Trabajo Chile","por qué es feriado el Día del Trabajo"] 
 date: "2024-05-01"  
-author: "Felipe Jofré Quevedo"  
+author: "feriados-chile.com"  
 image: "https://media.feriados-chile.com/assets/images/dia-del-trabajador-chile.webp"  
 alt_text: "Día del trabajador"  
 slug: "dia-del-trabajador"

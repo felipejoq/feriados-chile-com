@@ -29,7 +29,7 @@ const schema = {
   "endDate": holiday.date || "",
   "description": `${holiday.description} - Tipo: ${holiday.type}. Respaldo legal: ${holiday.legalSupport}`,
   "eventStatus": "https://schema.org/EventScheduled",
-  "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug}` : "https://feriados-chile.com",
+  "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug.replace(/^\//, '')}` : "https://feriados-chile.com",
   "image": imageUrl,
   "location": {
     "@type": "Place",
@@ -46,7 +46,7 @@ const schema = {
   },
   "offers": {
     "@type": "Offer",
-    "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug}` : "https://feriados-chile.com",
+    "url": holiday.slug ? `https://feriados-chile.com/${holiday.slug.replace(/^\//, '')}` : "https://feriados-chile.com",
     "price": "0",
     "priceCurrency": "CLP",
     "availability": "https://schema.org/PreOrder"
