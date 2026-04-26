@@ -1,7 +1,6 @@
 import {defineAction} from "astro:actions";
 import {z} from "astro:schema";
 import {getCollection} from "astro:content";
-import {getEntry} from "astro:content";
 import {getDate, isAfter, isSameDay, isSundayInTimeZone, longDate, sortHolidays} from "../../utils/dates/date.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
 
@@ -21,7 +20,9 @@ export const TodayIsHoliday = defineAction({
 
     // Check if today is Sunday in Chile Continental
     if (isSundayInTimeZone()) {
-      const sundayHoliday = await getEntry("holidays_2026", "todos-los-domingos");
+      const sundayHoliday = holidaysCollection.find(({data}) => {
+        return data.description === "Todos los días Domingos";
+      });
       if(sundayHoliday) {
         result.push(sundayHoliday.data as Holiday);
       }
