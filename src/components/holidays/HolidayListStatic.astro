@@ -4,8 +4,9 @@ import {sortHolidays} from "../../utils/dates/date.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
 import HolidayCard from "./HolidayCard.astro";
 import HolidaySchema from "./HolidaySchema.astro";
+import {getCurrentHolidayCollectionName} from "../../utils/holidays/holidayCollection.ts";
 
-const holidaysCollection = await getCollection("holidays_2026");
+const holidaysCollection = await getCollection(getCurrentHolidayCollectionName());
 
 const holidays = holidaysCollection
   .map(holidayItem => ({

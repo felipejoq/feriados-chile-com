@@ -3,12 +3,14 @@ import {z} from "astro/zod";
 import {getCollection} from "astro:content";
 import {isAfter, isSameDay, isSundayInTimeZone, longDate, sortHolidays} from "../../utils/dates/date.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
+import {getHolidayCollectionName, HOLIDAY_COLLECTION_BY_YEAR} from "../../utils/holidays/holidayCollection.ts";
 
 export const TodayIsHoliday = defineAction({
   accept: 'json',
   input: z.string(),
   handler: async (today) => {
-    const holidaysCollection = await getCollection('holidays_2026') as {data: Holiday}[];
+    const collectionName = getHolidayCollectionName(today.slice(0, 4));
+    const holidaysCollection = await getCollection(collectionName) as {data: Holiday}[];
 
     const holidaysFound = holidaysCollection.filter(({data}) => {
       return data.date !== null && data.date !== undefined
@@ -49,7 +51,12 @@ export const NextHoliday = defineAction({
   accept: 'json',
   input: z.string(), // Fecha actual en formato 'YYYY-MM-DD'
   handler: async (today) => {
-    const holidaysCollection = await getCollection("holidays_2026") as { data: Holiday }[];
+    const collections = await Promise.all(
+      Object.values(HOLIDAY_COLLECTION_BY_YEAR).map((collectionName) =>
+        getCollection(collectionName)
+      )
+    );
+    const holidaysCollection = collections.flat() as { data: Holiday }[];
 
     const futureHolidays = holidaysCollection
       .filter(({ data }) =>

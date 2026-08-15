@@ -1,7 +1,7 @@
 ---
-title: "✨ Feriado del 20 de Junio: Día Nacional de los Pueblos Indígenas"
-description: "✅ Conoce la importancia y significado del Día Nacional de los Pueblos Indígenas en Chile, celebrado el 20 de junio."
-keywords: ["feriado 20 junio Chile", "Día Nacional de los Pueblos Indígenas", "solsticio de invierno", "cultura indígena"]
+title: "✨ Día Nacional de los Pueblos Indígenas: feriado del solsticio de invierno"
+description: "✅ Conoce la fecha y el significado del Día Nacional de los Pueblos Indígenas en Chile, celebrado durante el solsticio de invierno."
+keywords: ["feriado pueblos indígenas Chile", "Día Nacional de los Pueblos Indígenas", "solsticio de invierno", "cultura indígena"]
 date: "2024-10-26"
 author: "feriados-chile.com"
 image: "https://media.feriados-chile.com/assets/images/porque-es-feriado-el-20-de-junio.jpg"
@@ -9,9 +9,9 @@ alt_text: "Celebración del Día Nacional de los Pueblos Indígenas"
 slug: "por-que-es-feriado-el-20-de-junio-en-chile"
 ---
 
-**Feriado del 20 de Junio:** Día Nacional de los Pueblos Indígenas
+**Día Nacional de los Pueblos Indígenas:** feriado del solsticio de invierno
 
-El 20 de junio se celebra un feriado muy especial en Chile, declarado oficialmente por la [Ley 21.357](https://www.bcn.cl/leychile/navegar?idNorma=1161743). Este día se conmemora el **Día Nacional de los Pueblos Indígenas**, coincidiendo con el solsticio de invierno en el hemisferio sur.
+La fecha de este feriado puede ser el 20 o el 21 de junio, según el momento exacto del solsticio de invierno en el hemisferio sur. La [Ley 21.357](https://www.bcn.cl/leychile/navegar?idNorma=1161743) declara feriado legal el día en que ocurre este fenómeno astronómico para conmemorar el **Día Nacional de los Pueblos Indígenas**. En 2026 y 2027 corresponde al 21 de junio.
 
 ## ¿Por qué se celebra este día?
 

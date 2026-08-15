@@ -1,0 +1,11 @@
+{
+  "description": "Feriado Bancario",
+  "type": "Especial",
+  "irrenunciable": false,
+  "legalSupport": "Ley General de Bancos",
+  "date": "2027-12-31",
+  "beneficiaries": "Trabajadores de Instituciones Bancarias",
+  "slug": "/porque-es-feriado-el-31-de-diciembre",
+  "icon": "💲",
+  "article": "porque-es-feriado-el-31-de-diciembre"
+}

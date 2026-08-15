@@ -20,5 +20,10 @@ export const linkList: LinkItem[] = [
     text:"2026",
     target:"_self",
     href:"/2026"
+  },
+  {
+    text:"2027",
+    target:"_self",
+    href:"/2027"
   }
 ]

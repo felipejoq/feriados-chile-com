@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "node ./dist/server/entry.mjs",
     "build": "astro build",
+    "validate:holidays": "node scripts/validate-holidays.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

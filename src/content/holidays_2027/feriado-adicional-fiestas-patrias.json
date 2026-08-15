@@ -1,0 +1,8 @@
+{
+  "description": "Feriado adicional de Fiestas Patrias",
+  "type": "Civil",
+  "irrenunciable": false,
+  "legalSupport": "Ley 20.983",
+  "date": "2027-09-17",
+  "icon": "🇨🇱"
+}

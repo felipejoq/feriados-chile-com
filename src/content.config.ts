@@ -48,9 +48,15 @@ const holidays2026Collection = defineCollection({
     schema: holidaySchema,
 });
 
+const holidays2027Collection = defineCollection({
+    loader: glob({ pattern: '**/*.json', base: './src/content/holidays_2027' }),
+    schema: holidaySchema,
+});
+
 export const collections = {
     'articles': articleCollection,
     'holidays_2024': holidaysCollection,
     'holidays_2025': holidays2025Collection,
     'holidays_2026': holidays2026Collection,
+    'holidays_2027': holidays2027Collection,
 };

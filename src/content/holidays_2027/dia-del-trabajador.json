@@ -1,0 +1,10 @@
+{
+  "description": "Día Nacional del Trabajo",
+  "type": "Civil",
+  "irrenunciable": true,
+  "legalSupport": "Código del Trabajo, Ley 19.973",
+  "date": "2027-05-01",
+  "slug": "/dia-del-trabajador",
+  "icon": "✊",
+  "article": "dia-del-trabajador"
+}

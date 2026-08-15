@@ -5,8 +5,9 @@ import {SearchTermInput} from "./SearchTermInput"
 import {SelectHolidayType} from "./SelectHolidayType";
 import {SelectHolidayMonth} from "./SelectHolidayMonth";
 import {ButtonResetFilters} from "./ButtonResetFilters";
+import {getCurrentHolidayCollectionName} from "../../utils/holidays/holidayCollection";
 
-const holidaysCollection = await getCollection("holidays_2026");
+const holidaysCollection = await getCollection(getCurrentHolidayCollectionName());
 
 const holidays = holidaysCollection.map(holidayItem => ({
   id: holidayItem.id,
