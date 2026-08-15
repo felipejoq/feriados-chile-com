@@ -1,5 +1,6 @@
-import { z, defineCollection, reference } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 import {HolidayTypes} from "./interfaces/holidays/holiday-types.ts";
 
 const articleCollection = defineCollection({
@@ -23,7 +24,7 @@ const articleCollection = defineCollection({
 const holidaySchema = z.object({
     legalSupport: z.string(),
     description: z.string().optional(),
-    type: z.nativeEnum(HolidayTypes),
+    type: z.enum(HolidayTypes),
     irrenunciable: z.boolean(),
     beneficiaries: z.string().optional(),
     slug: z.string().optional(),

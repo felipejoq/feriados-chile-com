@@ -16,7 +16,7 @@ if (!isHoliday) {
   const { data: nextData } = await Astro.callAction(actions.NextHoliday, today);
   if (nextData?.hasNextHoliday && nextData.nextHoliday?.date) {
     nextHoliday = nextData.nextHoliday;
-    daysRemaining = getDaysUntilHoliday(nextHoliday.date);
+    daysRemaining = getDaysUntilHoliday(nextData.nextHoliday.date);
   }
 }
 

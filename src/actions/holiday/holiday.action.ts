@@ -1,7 +1,7 @@
 import {defineAction} from "astro:actions";
-import {z} from "astro:schema";
+import {z} from "astro/zod";
 import {getCollection} from "astro:content";
-import {getDate, isAfter, isSameDay, isSundayInTimeZone, longDate, sortHolidays} from "../../utils/dates/date.ts";
+import {isAfter, isSameDay, isSundayInTimeZone, longDate, sortHolidays} from "../../utils/dates/date.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
 
 export const TodayIsHoliday = defineAction({

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Feriados App (feriados-chile.com) — a Chilean holidays web app built with Astro 6, React 19, and Tailwind CSS 4. Displays holidays by year with filtering, search, and informational articles. Data sourced from the Chilean government API (apis.digital.gob.cl/fl/).
+Feriados App (feriados-chile.com) — a Chilean holidays web app built with Astro 7, React 19, and Tailwind CSS 4. Displays holidays by year with filtering, search, and informational articles. Data sourced from the Chilean government API (apis.digital.gob.cl/fl/).
 
 ## Commands
 

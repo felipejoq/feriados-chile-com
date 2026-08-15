@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const FilterFallback = () => {
   return (
     <section className="flex flex-col gap-4 animate-pulse">

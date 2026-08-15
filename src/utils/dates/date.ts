@@ -1,5 +1,4 @@
 import { now, fromISO, fromJSDate } from "./dayjs-wrapper.ts";
-import type { Holiday } from "../../interfaces/holidays/holiday.ts";
 import type { Dayjs } from "dayjs";
 
 // Obtener la fecha local en formato corto (sin hora) como string

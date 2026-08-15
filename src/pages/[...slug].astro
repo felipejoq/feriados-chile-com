@@ -117,8 +117,8 @@ const breadcrumbSchema = {
         author={article.data.author}
         fullWidth
 >
-    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} slot="head"/>
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} slot="head"/>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} slot="head"/>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} slot="head"/>
 
     <!-- Navegación -->
     <div class="container mx-auto px-3 sm:px-4 max-w-5xl">

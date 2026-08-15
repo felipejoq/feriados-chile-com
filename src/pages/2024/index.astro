@@ -2,9 +2,6 @@
 import {getCollection} from "astro:content";
 import type {Holiday} from "../../interfaces/holidays/holiday";
 import {HolidayCard} from "../../components/holidays/HolidayCard";
-import MainLayout from "../../layouts/MainLayout.astro";
-import Navbar from "../../components/share/Navbar";
-import {linkList} from "../../utils/data/links-archive";
 import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
 
 const holidaysCollection = await getCollection("holidays_2024");
