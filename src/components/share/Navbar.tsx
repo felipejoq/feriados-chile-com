@@ -20,13 +20,13 @@ export const Navbar = ({ linkList }: Props) => {
 
     return (
       <nav className="w-full flex items-center justify-center mt-4 mb-4">
-          <ul className="max-w-3xl w-full rounded-xl flex justify-center gap-2">
+          <ul className="max-w-3xl w-full rounded-xl flex flex-wrap justify-center gap-2">
               {list.map((item) => {
                   const linkPath = item.href.replace(/^\/|\/$/g, "").split("/").pop() || "";
                   const isActive = currentPath === linkPath;
 
                   const baseClasses =
-                    "px-4 py-1 rounded-lg transition-all font-bold border border-gray-500";
+                    "inline-block px-4 py-1 rounded-lg transition-all font-bold border border-gray-500";
                   const activeClasses = "text-white bg-gray-800";
                   const inactiveClasses = "text-gray-800 hover:underline";
 

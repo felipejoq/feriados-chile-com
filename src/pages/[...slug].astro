@@ -1,4 +1,5 @@
 ---
+import HolidayPlanner from "../components/planner/HolidayPlanner";
 import type {GetStaticPaths} from "astro";
 import {getCollection, getEntry, render} from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro";
@@ -62,6 +63,9 @@ export const getStaticPaths = (async () => {
 const { article, holidayData } = Astro.props;
 
 const {Content} = await render(article);
+const plannerHolidays = article.data.tool === "long-weekends"
+  ? (await Promise.all([getCollection("holidays_2026"), getCollection("holidays_2027")])).flat().map(h => ({id:h.id, ...h.data}))
+  : [];
 
 const siteUrl = 'https://feriados-chile.com';
 const articleUrl = `${siteUrl}/${article.data.slug}`;
@@ -71,8 +75,9 @@ const articleSchema = {
   "@type": "Article",
   "headline": article.data.title,
   "description": article.data.description,
-  "image": article.data.image,
+  "image": new URL(article.data.image, siteUrl).href,
   "datePublished": article.data.date,
+  "dateModified": article.data.updatedDate || article.data.date,
   "author": {
     "@type": "Organization",
     "name": article.data.author,
@@ -169,7 +174,7 @@ const breadcrumbSchema = {
                 </header>
 
                 <!-- Datos del feriado relacionado -->
-                {holidayData && (
+                {holidayData && article.data.showHolidayInfo && (
                     <HolidayInfoCard
                         description={holidayData.description}
                         type={holidayData.type}
@@ -188,19 +193,21 @@ const breadcrumbSchema = {
                     </ArticleHolidayBanner>
                 </div>
 
+                {article.data.tool === "long-weekends" && <HolidayPlanner client:load holidays={plannerHolidays} />}
+
                 <!-- Contenido del artículo -->
-                <div class="article-content">
+                <div class="article-content overflow-x-auto">
                     <Content/>
                 </div>
 
                 <!-- Metadata del artículo -->
                 <div class="not-prose mt-8 pt-6 border-t border-gray-200">
                     <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-gray-400">
-                        <time datetime={article.data.date} class="flex items-center gap-1.5">
+                        <time datetime={article.data.updatedDate || article.data.date} class="flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
-                            {new Date(article.data.date).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            {article.data.updatedDate ? 'Actualizado: ' : ''}{new Date(article.data.updatedDate || article.data.date).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
                         </time>
                         <span aria-hidden="true">·</span>
                         <a href="/" class="flex items-center gap-1.5 text-emerald-600 hover:text-emerald-700 transition-colors">

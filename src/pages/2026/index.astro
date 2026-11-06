@@ -10,6 +10,7 @@ const holidays = holidaysCollection.map(holidayItem => ({
   id: holidayItem.id,
   ...holidayItem.data
 })) as Array<Holiday & { id: string }>;
+holidays.sort((a, b) => (a.date || "9999").localeCompare(b.date || "9999"));
 ---
 <ArchiveLayout
   year={2026}

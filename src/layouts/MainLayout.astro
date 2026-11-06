@@ -90,7 +90,7 @@ const absoluteImage = socialImage?.startsWith('http')
     <div class="container mx-auto px-4 max-w-5xl pt-8">
       <Header year={year}/>
     </div>
-    <main>
+    <main class="min-w-0">
       <slot/>
     </main>
     <div class="container mx-auto px-4 max-w-5xl pb-8">
@@ -100,7 +100,7 @@ const absoluteImage = socialImage?.startsWith('http')
 ) : (
   <div class="min-h-screen grid grid-rows-[auto_1fr_auto] container mx-auto px-4 py-8 max-w-5xl">
     <Header year={year}/>
-    <main>
+    <main class="min-w-0">
       <slot/>
     </main>
     <Footer/>
