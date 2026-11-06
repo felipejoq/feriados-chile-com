@@ -10,6 +10,9 @@ const articleCollection = defineCollection({
         generateId: ({ entry }) => entry.replace(/\.md$/, ''),
     }),
     schema: z.object({
+        showHolidayInfo: z.boolean().default(true),
+        tool: z.enum(["long-weekends"]).optional(),
+        updatedDate: z.string().optional(),
         title: z.string(),
         description: z.string(),
         keywords: z.array(z.string()),

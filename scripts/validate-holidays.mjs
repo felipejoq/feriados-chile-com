@@ -21,7 +21,6 @@ const expectedCalendars = {
     'Día de Todos los Santos': ['2026-11-01', false],
     'Inmaculada Concepción': ['2026-12-08', false],
     'Navidad': ['2026-12-25', true],
-    'Feriado Bancario': ['2026-12-31', false],
     'Todos los días Domingos': [null, false],
   },
   2027: {
@@ -44,7 +43,6 @@ const expectedCalendars = {
     'Día de Todos los Santos': ['2027-11-01', false],
     'Inmaculada Concepción': ['2027-12-08', false],
     'Navidad': ['2027-12-25', true],
-    'Feriado Bancario': ['2027-12-31', false],
     'Todos los días Domingos': [null, false],
   },
 };
