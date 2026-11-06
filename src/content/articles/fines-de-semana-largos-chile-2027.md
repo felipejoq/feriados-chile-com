@@ -4,8 +4,8 @@ description: "Revisa los 9 fines de semana largos nacionales de 2027, calcula d�
 keywords: ["fines de semana largos Chile 2027", "feriados 2027", "planificador vacaciones Chile", "feriados diciembre 2026"]
 date: "2026-11-06"
 author: "feriados-chile.com"
-image: "/planner-cover.svg"
-alt_text: "Calendario 2027 y planificación de días de descanso"
+image: "https://media.feriados-chile.com/assets/images/fines-de-semana-largos-chile-2027-ilustracion.webp"
+alt_text: "Ilustración de dos viajeros junto a un lago del sur de Chile, rodeado de araucarias y un volcán nevado"
 slug: "fines-de-semana-largos-chile-2027"
 tool: "long-weekends"
 ---
