@@ -1,13 +1,18 @@
 export interface PlannerHoliday { id: string; date?: string | null; description?: string; type: string; beneficiaries?: string }
 export interface BreakPlan { start: string; end: string; days: number; leave: string[]; holidays: string[] }
 export type Area = 'national' | 'arica' | 'chillan';
+export function appliesToArea(holiday: PlannerHoliday, area: Area): boolean {
+ return holiday.type !== 'Especial' && (holiday.type !== 'Local'
+  || (area === 'arica' && holiday.beneficiaries === 'Región de Arica y Parinacota')
+  || (area === 'chillan' && holiday.beneficiaries === 'Comunas de Chillán y Chillán Viejo'));
+}
 const DAY = 86400000;
 const iso = (time: number) => new Date(time).toISOString().slice(0,10);
 export const formatDay = (date: string) => new Intl.DateTimeFormat('es-CL', {day:'numeric', month:'long', timeZone:'UTC'}).format(new Date(`${date}T12:00:00Z`));
 
 // Calendar dates are evaluated in UTC so results do not depend on the build/server timezone.
 export function planBreaks(holidays: PlannerHoliday[], year: number, area: Area, budget: number, from = `${year}-01-01`): BreakPlan[] {
- const applicable = holidays.filter(h => h.date?.startsWith(`${year}-`) && h.type !== 'Especial' && (h.type !== 'Local' || (area === 'arica' && h.beneficiaries === 'Región de Arica y Parinacota') || (area === 'chillan' && h.beneficiaries === 'Comunas de Chillán y Chillán Viejo')));
+ const applicable = holidays.filter(h => h.date?.startsWith(`${year}-`) && appliesToArea(h, area));
  const dates = new Map(applicable.map(h => [h.date!, h.description || 'Feriado']));
  const days = [];
  for (let t=Date.UTC(year,0,1); t<Date.UTC(year+1,0,1); t+=DAY) {

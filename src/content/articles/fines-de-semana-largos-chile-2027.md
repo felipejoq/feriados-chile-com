@@ -72,6 +72,8 @@ El **viernes 20 de agosto** es feriado en las comunas de Chillán y Chillán Vie
 
 ## Cómo extender un descanso con vacaciones
 
+Si ya tienes un período definido, usa la [calculadora de días hábiles en Chile](/calculadora-dias-habiles-chile) para contar sus días de lunes a viernes sin feriados, revisar el detalle y compartir el cálculo.
+
 En diciembre de 2027, el feriado del miércoles 8 permite unir cinco días si acuerdas vacaciones el **lunes 6 y martes 7**, o el **jueves 9 y viernes 10**. Esos cuatro días hábiles no son feriados: la herramienta muestra ambas alternativas y el coste de cada una.
 
 Al aumentar el presupuesto de vacaciones aparecen opciones alternativas que pueden superponerse. Elige el bloque que te sirva; no sumes los días de resultados superpuestos. El cálculo se limita al año seleccionado para no asumir fechas del año siguiente que aún no están incluidas.

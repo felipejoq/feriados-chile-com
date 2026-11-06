@@ -1,5 +1,6 @@
 ---
 import HolidayPlanner from "../components/planner/HolidayPlanner";
+import BusinessDaysCalculator from "../components/business-days/BusinessDaysCalculator";
 import type {GetStaticPaths} from "astro";
 import {getCollection, getEntry, render} from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro";
@@ -63,7 +64,7 @@ export const getStaticPaths = (async () => {
 const { article, holidayData } = Astro.props;
 
 const {Content} = await render(article);
-const plannerHolidays = article.data.tool === "long-weekends"
+const plannerHolidays = article.data.tool
   ? (await Promise.all([getCollection("holidays_2026"), getCollection("holidays_2027")])).flat().map(h => ({id:h.id, ...h.data}))
   : [];
 
@@ -194,6 +195,7 @@ const breadcrumbSchema = {
                 </div>
 
                 {article.data.tool === "long-weekends" && <HolidayPlanner client:load holidays={plannerHolidays} />}
+                {article.data.tool === "business-days" && <BusinessDaysCalculator client:load holidays={plannerHolidays} />}
 
                 <!-- Contenido del artículo -->
                 <div class="article-content overflow-x-auto">
