@@ -12,26 +12,29 @@ if (nextResult.error) throw new Error(nextResult.error.message);
 const {isHoliday, holidays} = todayResult.data;
 const {nextHoliday} = nextResult.data;
 const days = nextHoliday?.date ? getDaysUntilHoliday(nextHoliday.date) : 0;
+const palette = isHoliday
+    ? {panel: 'border-emerald-200 bg-emerald-50', label: 'text-emerald-800', heading: 'text-emerald-950', text: 'text-emerald-900', divider: 'border-emerald-200'}
+    : {panel: 'border-amber-200 bg-amber-50', label: 'text-amber-800', heading: 'text-amber-950', text: 'text-amber-900', divider: 'border-amber-200'};
 ---
-<section aria-label="Hoy y próximo feriado" class="my-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 sm:my-6 sm:p-5">
+<section aria-label="Hoy y próximo feriado" class:list={["my-5 rounded-2xl border p-4 sm:my-6 sm:p-5", palette.panel]}>
     {nextHoliday ? (
         <div class="flex items-start justify-between gap-3 sm:items-center">
             <div class="min-w-0">
-                <p class="text-xs font-semibold uppercase tracking-wide text-emerald-800">Próximo feriado</p>
-                <h2 class="mt-1 text-lg font-bold leading-snug text-emerald-950 sm:text-xl">
+                <p class:list={["text-xs font-semibold uppercase tracking-wide", palette.label]}>Próximo feriado</p>
+                <h2 class:list={["mt-1 text-lg font-bold leading-snug sm:text-xl", palette.heading]}>
                     {nextHoliday.slug ? <a class="hover:underline" href={nextHoliday.slug}>{nextHoliday.description}</a> : nextHoliday.description}
                 </h2>
-                <p class="mt-1 text-sm text-emerald-900"><time datetime={nextHoliday.date}>{longDate(nextHoliday.date)}</time></p>
-                {nextHoliday.beneficiaries && <p class="mt-1 text-xs text-emerald-800">{nextHoliday.beneficiaries}</p>}
+                <p class:list={["mt-1 text-sm", palette.text]}><time datetime={nextHoliday.date}>{longDate(nextHoliday.date)}</time></p>
+                {nextHoliday.beneficiaries && <p class:list={["mt-1 text-xs", palette.label]}>{nextHoliday.beneficiaries}</p>}
             </div>
-            <p class="shrink-0 text-center text-emerald-900">
+            <p class:list={["shrink-0 text-center", palette.text]}>
                 <span class="block text-xs">Faltan</span>
                 <strong class="block text-3xl leading-tight tabular-nums sm:text-4xl">{days}</strong>
                 <span class="block text-xs">{days === 1 ? 'día' : 'días'}</span>
             </p>
         </div>
-    ) : <p class="font-semibold text-emerald-950">No hay próximas fechas disponibles en el calendario publicado.</p>}
-    <div class="mt-3 border-t border-emerald-200 pt-3 text-xs leading-relaxed text-emerald-900 sm:text-sm">
+    ) : <p class:list={["font-semibold", palette.heading]}>No hay próximas fechas disponibles en el calendario publicado.</p>}
+    <div class:list={["mt-3 border-t pt-3 text-xs leading-relaxed sm:text-sm", palette.divider, palette.text]}>
         {isHoliday ? (
             <p><strong>Hoy es feriado:</strong>{" "}{holidays.map((holiday, index) => <span>{index > 0 ? ' · ' : ''}{holiday.slug ? <a href={holiday.slug} class="font-medium underline underline-offset-2">{holiday.description}</a> : holiday.description}{holiday.beneficiaries ? ` (${holiday.beneficiaries})` : ''}</span>)}</p>
         ) : <p>Hoy no es feriado · <time datetime={today}>{longDate(today)}</time></p>}
