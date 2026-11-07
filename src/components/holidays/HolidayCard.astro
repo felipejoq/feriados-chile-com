@@ -3,19 +3,13 @@ import {longDate, getNextSunday} from "../../utils/dates/date.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
 import {HolidayTypes} from "../../interfaces/holidays/holiday-types.ts";
 import {getCardBorderClass} from "../../utils/holidays/holidayStyles.ts";
-import InfoIcon from "../icons/InfoIcon.astro";
-import LocationIcon from "../icons/LocationIcon.astro";
-import BookIcon from "../icons/BookIcon.astro";
-
-interface Props {
-  holiday: Holiday & { id: string };
-}
-
-const { holiday } = Astro.props;
+interface Props { holiday: Holiday & { id: string }; }
+const {holiday} = Astro.props;
+const date = holiday.date || getNextSunday();
+const month = new Intl.DateTimeFormat('es-CL', {month: 'short', timeZone: 'UTC'}).format(new Date(`${date}T00:00:00Z`)).replace('.', '');
 ---
-
 <article
-  class={`holiday-card border border-t-4 border-gray-300 p-6 rounded-xl bg-gray-100 flex flex-col gap-4 sm:flex-row justify-between ${getCardBorderClass(holiday.type)}`}
+  class={`holiday-card rounded-xl border border-t-4 border-slate-200 bg-white p-3 sm:p-4 ${getCardBorderClass(holiday.type)}`}
   data-holiday-id={holiday.id}
   data-holiday-description={(holiday.description || '').toLowerCase()}
   data-holiday-type={holiday.type}
@@ -25,54 +19,26 @@ const { holiday } = Astro.props;
   data-holiday-legal={holiday.legalSupport.toLowerCase()}
   data-holiday-long-date={holiday.date ? longDate(holiday.date).toLowerCase() : ''}
 >
-  <div class="flex flex-col gap-4">
-    <div>
-      <div class="flex items-center gap-3 mb-2">
-        {holiday.icon && (
-          <span class="text-2xl">{holiday.icon}</span>
-        )}
-        <h2 class="text-xl font-bold">
-          {holiday.slug ? (
-            <a class="cursor-pointer hover:underline" href={holiday.slug} target="_self">
-              {holiday.description}
-            </a>
-          ) : (
-            holiday.description
-          )}
-        </h2>
-      </div>
-      <h3 class="text-gray-800">
-        {holiday.date ? longDate(holiday.date) : longDate(getNextSunday())}
-      </h3>
-      <div class="flex flex-wrap gap-2 mt-2 sm:mt-4">
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
-          <InfoIcon />
-          {holiday.type}
-        </span>
-        {holiday.type === HolidayTypes.Local && holiday.beneficiaries && (
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
-            <LocationIcon />
-            {holiday.beneficiaries}
-          </span>
-        )}
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-gray-700 text-white">
-          {holiday.irrenunciable ? 'Irrenunciable' : 'Renunciable'}
-        </span>
-      </div>
+  <div class="flex items-start gap-3 sm:gap-4">
+    <div aria-hidden="true" class="w-12 shrink-0 rounded-lg bg-slate-100 py-2 text-center text-slate-800 sm:w-14">
+      <span class="block text-2xl font-bold leading-none tabular-nums">{date.slice(8, 10)}</span>
+      <span class="mt-1 block text-xs font-semibold uppercase">{month}</span>
     </div>
-
-    <div class="text-xs text-gray-700 sm:mt-6">
-      <p class="flex items-center gap-2">
-        <BookIcon />
-        Respaldo legal: {holiday.legalSupport}
-      </p>
+    <div class="min-w-0 flex-1">
+      <h3 class="text-base font-bold leading-snug text-slate-900 sm:text-lg">
+        {holiday.icon && <span aria-hidden="true" class="mr-1">{holiday.icon}</span>}
+        {holiday.slug ? <a class="hover:underline focus-visible:outline-2 focus-visible:outline-emerald-700" href={holiday.slug}>{holiday.description}</a> : holiday.description}
+      </h3>
+      <p class="mt-1 text-sm text-slate-600"><time datetime={date}>{longDate(date)}</time></p>
+      <div class="mt-2 flex flex-wrap gap-1.5 text-xs">
+        <span class="rounded bg-slate-100 px-2 py-1 text-slate-700">{holiday.type}</span>
+        <span class:list={["rounded px-2 py-1", holiday.irrenunciable ? 'bg-amber-100 text-amber-950 font-medium' : 'bg-slate-100 text-slate-600']}>{holiday.irrenunciable ? 'Irrenunciable' : 'Renunciable'}</span>
+      </div>
+      {holiday.type === HolidayTypes.Local && holiday.beneficiaries && <p class="mt-2 text-xs leading-relaxed text-slate-700">{holiday.beneficiaries}</p>}
     </div>
   </div>
-  <div class="mt-6 self-end">
-    {holiday.slug && (
-      <a class="px-4 py-1 bg-gray-800 text-white rounded-full flex items-center gap-2 hover:bg-gray-700 transition-colors" href={holiday.slug} target="_self">
-        Ver más
-      </a>
-    )}
+  <div class="mt-2 flex flex-wrap items-center justify-between gap-x-3 border-t border-slate-100 pt-1">
+    <p class="py-1 text-xs leading-relaxed text-slate-500">Respaldo legal: {holiday.legalSupport}</p>
+    {holiday.slug && <a href={holiday.slug} aria-label={`Ver detalle de ${holiday.description}`} class="ml-auto inline-flex min-h-11 items-center text-sm font-semibold text-emerald-800 underline underline-offset-4 hover:text-emerald-950">Ver detalle <span aria-hidden="true" class="ml-1">→</span></a>}
   </div>
 </article>

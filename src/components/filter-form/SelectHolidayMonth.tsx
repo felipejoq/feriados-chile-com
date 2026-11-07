@@ -40,7 +40,7 @@ export const SelectHolidayMonth = () => {
       options={monthOptions}
       onChange={handleChange}
       icon={<GoCalendar size={22} />}
-      placeholder="Todos los meses"
+      placeholder="Cualquier mes"
     />
   );
 };

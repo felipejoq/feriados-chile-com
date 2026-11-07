@@ -39,6 +39,9 @@ export function filterCards(filters: FilterState): void {
     }
   });
 
+  const counter = document.getElementById('holiday-results-count');
+  if (counter) counter.textContent = `${visibleCount} de ${allCards.length} fechas en el calendario`;
+
   const noResultsMessage = document.getElementById('no-results-message');
   if (noResultsMessage) {
     if (visibleCount === 0) {

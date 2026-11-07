@@ -4,17 +4,48 @@ import CardShowStatus from "../components/status-card/CardShowStatus.astro";
 import CardShowStatusFallback from "../components/fallbacks/CardShowStatusFallback.astro";
 import Filters from "../components/filter-form/Filters.astro";
 import HolidayListStatic from "../components/holidays/HolidayListStatic.astro";
-import {FilterFallback} from "../components/fallbacks/FilterFallback";
+import {linkList} from "../utils/data/links-archive";
+import {getTodayDateChile} from "../utils/dates/date";
+const year = getTodayDateChile().slice(0, 4);
+const tools = [
+  {href: '/calendario-feriados-chile-descargar', title: 'Descarga tu calendario', text: 'Elige año, zona y mes. Guarda un PDF o importa las fechas a tu calendario.'},
+  {href: '/calculadora-dias-habiles-chile', title: 'Calcula días hábiles', text: 'Cuenta entre fechas o suma días, considerando los feriados de tu zona.'},
+  {href: '/fines-de-semana-largos-chile-2027', title: 'Planifica tus descansos', text: 'Explora los fines de semana largos de 2027 y combínalos con vacaciones.'},
+];
 ---
 <MainLayout>
+    <nav aria-label="Calendarios y herramientas" class="mt-4 flex flex-wrap items-center justify-center gap-0.5 text-xs min-[360px]:gap-1 min-[360px]:text-sm">
+        {linkList.filter(link => link.href !== '/').map(link => (
+            <a href={link.href} aria-label={`Calendario de ${link.text}`} class:list={["inline-flex min-h-11 items-center rounded-lg px-2 font-semibold hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", link.text === year ? 'bg-emerald-100 text-emerald-900' : 'text-slate-600']} >{link.text}</a>
+        ))}
+        <a href="#herramientas" class="inline-flex min-h-11 items-center rounded-lg px-2 text-slate-600 underline underline-offset-4 hover:text-emerald-800">Herramientas</a>
+    </nav>
+
     <CardShowStatus server:defer>
         <CardShowStatusFallback slot="fallback"/>
     </CardShowStatus>
-    <a class="my-6 block rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950" href="/fines-de-semana-largos-chile-2027"><strong>Planifica tus fines de semana largos de 2027</strong><br />Calcula días libres, compara opciones y agrégalas a tu calendario.</a>
-    <a class="my-6 block rounded-xl border border-emerald-200 bg-white p-5 text-emerald-950" href="/calculadora-dias-habiles-chile"><strong>Calculadora de días hábiles en Chile</strong><br />Cuenta entre fechas o suma días, revisa los feriados y comparte el resultado.</a>
-    <a class="my-6 block rounded-xl border border-emerald-200 bg-white p-5 text-emerald-950" href="/calendario-feriados-chile-descargar"><strong>Descarga tu calendario de feriados</strong><br />Personaliza año, zona y mes. Guarda un PDF para imprimir o importa los feriados a tu calendario.</a>
-    <Filters server:defer>
-        <FilterFallback slot="fallback"/>
-    </Filters>
-    <HolidayListStatic />
+
+    <section id="calendario" aria-labelledby="calendar-heading" class="scroll-mt-4">
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                <h2 id="calendar-heading" class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Feriados de Chile {year}</h2>
+
+            <a href="/calendario-feriados-chile-descargar" aria-label="Descargar calendario" class="inline-flex min-h-11 items-center text-sm font-semibold text-emerald-800 underline underline-offset-4 hover:text-emerald-950">Descargar <span aria-hidden="true" class="ml-1">↓</span></a>
+        </div>
+        <p class="mt-1 mb-4 text-sm text-slate-600">Consulta el año completo o encuentra una fecha.</p>
+        <Filters />
+        <HolidayListStatic />
+    </section>
+
+    <section id="herramientas" aria-labelledby="tools-heading" class="mt-10 scroll-mt-6 border-t border-slate-200 pt-6 pb-4">
+        <h2 id="tools-heading" class="text-xl font-bold text-slate-900">Herramientas para organizarte</h2>
+        <p class="mt-1 text-sm text-slate-600">Dale un uso práctico al calendario de feriados.</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-3">
+            {tools.map(tool => (
+                <a href={tool.href} class="group rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700">
+                    <h3 class="font-semibold text-emerald-900 group-hover:underline">{tool.title} <span aria-hidden="true">↗</span></h3>
+                    <p class="mt-2 text-sm leading-relaxed text-slate-600">{tool.text}</p>
+                </a>
+            ))}
+        </div>
+    </section>
 </MainLayout>

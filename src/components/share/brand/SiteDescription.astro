@@ -1,5 +1,7 @@
 ---
+const isHome = Astro.url.pathname === "/";
+const Tag = isHome ? "p" : "h2";
 ---
-<h2 class="text-lg font-light text-gray-800 text-center">
+<Tag class:list={["font-light text-gray-800 text-center", isHome ? "text-sm sm:text-lg" : "text-lg"]}>
     <slot/>
-</h2>
+</Tag>

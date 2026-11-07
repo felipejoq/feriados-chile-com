@@ -1,4 +1,4 @@
-import {type ChangeEvent, useEffect, useRef, useState} from 'react'
+import {type ChangeEvent, useEffect, useState} from 'react'
 import {GoSearch} from "react-icons/go";
 import {holidays} from "../../store/holidaysStore.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
@@ -10,11 +10,9 @@ interface Props {
 
 export const SearchTermInput = ({ holidaysArr }: Props) => {
   const [query, setQuery] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     holidays.set(holidaysArr.sort(sortHolidays));
-    inputRef.current?.focus();
 
     // Listener para reset
     const handleReset = () => {
@@ -33,11 +31,11 @@ export const SearchTermInput = ({ holidaysArr }: Props) => {
   return (
     <div className="flex relative items-center">
       <label htmlFor="search-term" className="absolute left-3 text-gray-400 text-xl">
-        <GoSearch size={22} />
+        <span className="sr-only">Buscar feriado</span>
+        <GoSearch size={22} aria-hidden="true" />
       </label>
       <input
-        ref={inputRef}
-        className="w-full p-2 pl-10 border-1 border-gray-300 rounded-xl bg-white"
+        className="w-full min-h-11 p-2 pl-10 border border-gray-300 rounded-xl bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
         id="search-term"
         name="search-term"
         onChange={handleSearchTermChange}

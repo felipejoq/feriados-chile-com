@@ -17,7 +17,8 @@ const holidays = holidaysCollection
   .sort(sortHolidays) as Array<Holiday & { id: string }>;
 ---
 
-<div class="flex flex-col w-full my-6 gap-4" id="holiday-list">
+<p id="holiday-results-count" role="status" aria-live="polite" aria-atomic="true" class="my-3 text-sm text-slate-600">{holidays.length} fechas en el calendario</p>
+<div class="flex flex-col w-full gap-3" id="holiday-list">
   {
     holidays.map((holiday) => (
       <HolidayCard holiday={holiday} />
