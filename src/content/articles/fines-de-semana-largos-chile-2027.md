@@ -42,6 +42,8 @@ La [Ley 21.357](https://www.bcn.cl/leychile/navegar?i=1161743) fija Pueblos Ind�
 
 ## Calendario nacional completo de 2027
 
+También puedes [descargar el calendario en PDF para imprimir o en formato .ics para importar](/calendario-feriados-chile-descargar), eligiendo el año, la zona y los feriados que te interesan.
+
 | Fecha | Día | Feriado |
 | --- | --- | --- |
 | 1 de enero | Viernes | Año Nuevo |

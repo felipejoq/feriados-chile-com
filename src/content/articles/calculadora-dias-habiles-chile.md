@@ -122,6 +122,8 @@ Sí. Copia su enlace y guárdalo o compártelo. Se conservan las opciones, no un
 
 ## Calendarios y fuentes para comprobar el resultado
 
+Para guardar las fechas festivas, puedes [personalizar y descargar el calendario de feriados en PDF o formato .ics](/calendario-feriados-chile-descargar). La descarga es una copia; no crea una suscripción automática.
+
 Puedes contrastar las fechas festivas con los calendarios de [Chile 2026](/2026) y [Chile 2027](/2027), que incluyen sus respaldos legales. Para entender las convenciones de conteo de esta guía, consulta:
 
 - [Dirección del Trabajo: cómo contabilizar los días hábiles de vacaciones](https://dt.gob.cl/portal/1628/w3-article-60177.html).

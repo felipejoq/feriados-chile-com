@@ -1,9 +1,10 @@
+import {DEFAULT_YEAR, REVIEWED_YEARS, REVIEWED_LABEL, plannerStart} from '../../utils/holidays/coverage';
 import {useState} from 'react';
 import {planBreaks, formatDay, calendarFile, type Area, type PlannerHoliday, type BreakPlan} from '../../utils/holidays/planner';
 
 export default function HolidayPlanner({holidays}: {holidays: PlannerHoliday[]}) {
- const [year,setYear]=useState(2027), [area,setArea]=useState<Area>('national'), [budget,setBudget]=useState(0);
- const plans=planBreaks(holidays,year,area,budget,year===2026?'2026-11-06':'2027-01-01');
+ const [year,setYear]=useState(DEFAULT_YEAR), [area,setArea]=useState<Area>('national'), [budget,setBudget]=useState(0);
+ const plans=planBreaks(holidays,year,area,budget,plannerStart(year));
  function download(plan:BreakPlan) {
   const url=URL.createObjectURL(new Blob([calendarFile(plan)],{type:'text/calendar;charset=utf-8'}));
   const a=document.createElement('a');a.href=url;a.download=`descanso-${plan.start}.ics`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
@@ -12,7 +13,7 @@ export default function HolidayPlanner({holidays}: {holidays: PlannerHoliday[]})
   <h2 id="planner-heading" className="text-2xl font-bold text-emerald-950">Planifica tus días libres</h2>
   <p className="my-3 text-sm text-gray-700">Para quienes descansan sábados, domingos y feriados. Los días de vacaciones son sugerencias que debes acordar con tu empleador. Calculamos dentro del año elegido.</p>
   <div className="grid gap-4 sm:grid-cols-3">
-   <label className="min-w-0 text-sm font-semibold">Año<select className="mt-1 min-w-0 w-full rounded-lg border bg-white p-3" value={year} onChange={e=>setYear(Number(e.target.value))}><option value={2027}>2027 completo</option><option value={2026}>2026 desde el 6 de noviembre</option></select></label>
+   <label className="min-w-0 text-sm font-semibold">Año<select className="mt-1 min-w-0 w-full rounded-lg border bg-white p-3" value={year} onChange={e=>setYear(Number(e.target.value))}>{[...REVIEWED_YEARS].reverse().map(y=><option key={y} value={y}>{y} {plannerStart(y)===`${y}-01-01`?'completo':`desde el ${formatDay(plannerStart(y))}`}</option>)}</select></label>
    <label className="min-w-0 text-sm font-semibold">Zona<select className="mt-1 min-w-0 w-full rounded-lg border bg-white p-3" value={area} onChange={e=>setArea(e.target.value as Area)}><option value="national">Feriados nacionales</option><option value="arica">Arica y Parinacota</option><option value="chillan">Chillán y Chillán Viejo</option></select></label>
    <label className="min-w-0 text-sm font-semibold">Vacaciones disponibles<select className="mt-1 min-w-0 w-full rounded-lg border bg-white p-3" value={budget} onChange={e=>setBudget(Number(e.target.value))}><option value={0}>Sin pedir días</option><option value={1}>Hasta 1 día</option><option value={2}>Hasta 2 días</option></select></label>
   </div>
@@ -26,6 +27,6 @@ export default function HolidayPlanner({holidays}: {holidays: PlannerHoliday[]})
     <button type="button" className="mt-3 rounded-lg bg-emerald-800 px-3 py-2 text-sm text-white hover:bg-emerald-950 focus-visible:outline-2 focus-visible:outline-offset-2" onClick={()=>download(p)}>Agregar al calendario (.ics)</button>
    </article>)}
   </div>
-  <p className="mt-4 text-sm text-gray-700">Las propuestas legislativas y el cierre bancario del 31 de diciembre no suman días libres. Revisión: 6 de noviembre de 2026.</p>
+  <p className="mt-4 text-sm text-gray-700">Las propuestas legislativas y el cierre bancario del 31 de diciembre no suman días libres. Revisión: {REVIEWED_LABEL}.</p>
  </section>;
 }
