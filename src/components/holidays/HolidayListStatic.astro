@@ -1,34 +1,35 @@
 ---
 import {getCollection} from "astro:content";
-import {sortHolidays} from "../../utils/dates/date.ts";
 import type {Holiday} from "../../interfaces/holidays/holiday.ts";
 import HolidayCard from "./HolidayCard.astro";
 import HolidaySchema from "./HolidaySchema.astro";
-import {getCurrentHolidayCollectionName} from "../../utils/holidays/holidayCollection.ts";
+import {getCurrentHolidayCollectionName, getHolidayCollectionName, type SupportedHolidayYear} from "../../utils/holidays/holidayCollection.ts";
 
-const holidaysCollection = await getCollection(getCurrentHolidayCollectionName());
+interface Props { year?: SupportedHolidayYear; includeRecurring?: boolean; }
+const {year, includeRecurring = false} = Astro.props;
+const holidaysCollection = await getCollection(year ? getHolidayCollectionName(year) : getCurrentHolidayCollectionName());
 
 const holidays = holidaysCollection
   .map(holidayItem => ({
     id: holidayItem.id,
     ...holidayItem.data
   }))
-  .filter(h => h.date) // Filtrar feriados sin fecha
-  .sort(sortHolidays) as Array<Holiday & { id: string }>;
+  .filter(h => includeRecurring || h.date)
+  .sort((a, b) => (a.date || "9999").localeCompare(b.date || "9999")) as Array<Holiday & { id: string }>;
 ---
 
-<p id="holiday-results-count" role="status" aria-live="polite" aria-atomic="true" class="my-3 text-sm text-slate-600">{holidays.length} fechas en el calendario</p>
+<p id="holiday-results-count" role="status" aria-live="polite" aria-atomic="true" class="my-3 text-sm text-slate-600">{holidays.length} resultados</p>
 <div class="flex flex-col w-full gap-3" id="holiday-list">
   {
     holidays.map((holiday) => (
-      <HolidayCard holiday={holiday} />
+      <HolidayCard holiday={holiday} headingLevel={year ? 2 : 3} />
     ))
   }
   <p id="no-results-message" class="text-center text-gray-500 hidden">No hay feriados para mostrar.</p>
 </div>
 
 <!-- JSON-LD Schemas para feriados -->
-{holidays.map((holiday) => (
+{holidays.filter(holiday => holiday.date).map((holiday) => (
   <HolidaySchema holiday={holiday} />
 ))}
 

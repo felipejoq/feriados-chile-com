@@ -4,7 +4,7 @@ import CardShowStatus from "../components/status-card/CardShowStatus.astro";
 import CardShowStatusFallback from "../components/fallbacks/CardShowStatusFallback.astro";
 import Filters from "../components/filter-form/Filters.astro";
 import HolidayListStatic from "../components/holidays/HolidayListStatic.astro";
-import {linkList} from "../utils/data/links-archive";
+import SiteNavigation from "../components/share/SiteNavigation.astro";
 import {getTodayDateChile} from "../utils/dates/date";
 const year = getTodayDateChile().slice(0, 4);
 const tools = [
@@ -14,12 +14,7 @@ const tools = [
 ];
 ---
 <MainLayout>
-    <nav aria-label="Calendarios y herramientas" class="mt-4 flex flex-wrap items-center justify-center gap-0.5 text-xs min-[360px]:gap-1 min-[360px]:text-sm">
-        {linkList.filter(link => link.href !== '/').map(link => (
-            <a href={link.href} aria-label={`Calendario de ${link.text}`} class:list={["inline-flex min-h-11 items-center rounded-lg px-2 font-semibold hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", link.text === year ? 'bg-emerald-100 text-emerald-900' : 'text-slate-600']} >{link.text}</a>
-        ))}
-        <a href="#herramientas" class="inline-flex min-h-11 items-center rounded-lg px-2 text-slate-600 underline underline-offset-4 hover:text-emerald-800">Herramientas</a>
-    </nav>
+    <SiteNavigation showHome={false} />
 
     <CardShowStatus server:defer>
         <CardShowStatusFallback slot="fallback"/>
