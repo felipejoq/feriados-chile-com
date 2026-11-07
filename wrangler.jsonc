@@ -1,0 +1,21 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"compatibility_date": "2026-11-07",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"name": "feriados-chile",
+	"account_id": "03d91321df63ee580e2e66d6c7e94f8d",
+	"workers_dev": true,
+	"routes": [
+		{ "pattern": "feriados-chile.com", "custom_domain": true }
+	],
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"html_handling": "drop-trailing-slash"
+	},
+	"observability": {
+		"enabled": true,
+		"traces": { "enabled": true, "head_sampling_rate": 0.1 }
+	}
+}
