@@ -7,14 +7,9 @@ export const linkList: LinkItem[] = [
     href: "/"
   },
   {
-    text:"2024",
+    text:"2027",
     target:"_self",
-    href:"/2024"
-  },
-  {
-    text:"2025",
-    target:"_self",
-    href:"/2025"
+    href:"/2027"
   },
   {
     text:"2026",
@@ -22,8 +17,13 @@ export const linkList: LinkItem[] = [
     href:"/2026"
   },
   {
-    text:"2027",
+    text:"2025",
     target:"_self",
-    href:"/2027"
+    href:"/2025"
+  },
+  {
+    text:"2024",
+    target:"_self",
+    href:"/2024"
   }
 ]
