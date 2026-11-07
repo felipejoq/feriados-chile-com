@@ -1,96 +1,39 @@
 ---
-import HolidayStatus from "./HolidayStatus.astro";
-import NextHoliday from "./NextHoliday.astro";
 import {actions} from "astro:actions";
-import {getTodayDateChile} from "../../utils/dates/date";
-import { isCacheValid, getCachedData, setCacheData } from "../../utils/cache/holidayCache";
+import {getTodayDateChile, getDaysUntilHoliday, longDate} from "../../utils/dates/date";
 
 const today = getTodayDateChile();
-
-let data;
-if (isCacheValid(today)) {
-  data = getCachedData();
-} else {
-  const { data: actionData, error } = await Astro.callAction(actions.TodayIsHoliday, today);
-
-  if (error) {
-    console.log(error);
-    throw new Error(error.message);
-  }
-  
-  setCacheData(actionData, today);
-  data = actionData;
-}
-
-const {isHoliday, holidays} = data;
-const holidayIcon = isHoliday && holidays?.[0]?.icon ? holidays[0].icon : (isHoliday ? "🎉" : "📅");
-
+const [todayResult, nextResult] = await Promise.all([
+    Astro.callAction(actions.TodayIsHoliday, today),
+    Astro.callAction(actions.NextHoliday, today),
+]);
+if (todayResult.error) throw new Error(todayResult.error.message);
+if (nextResult.error) throw new Error(nextResult.error.message);
+const {isHoliday, holidays} = todayResult.data;
+const {nextHoliday} = nextResult.data;
+const days = nextHoliday?.date ? getDaysUntilHoliday(nextHoliday.date) : 0;
 ---
-<section class="my-8">
-    <div
-      class={`
-        rounded-3xl px-4 py-4 sm:px-6 sm:py-6 flex flex-col gap-4
-        border transition-all duration-300
-        ${isHoliday
-          ? "border-emerald-200/50 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 shadow-sm shadow-emerald-100/50 hover:shadow-md hover:shadow-emerald-100"
-          : "border-amber-200/50 bg-gradient-to-br from-amber-50/80 to-orange-50/80 shadow-sm shadow-amber-100/50 hover:shadow-md hover:shadow-amber-100"
-        }
-      `}
-    >
-        <!-- Header simplificado -->
-        <div class="flex items-center gap-4">
-            <div class={`
-                flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl
-                ${isHoliday 
-                    ? "bg-emerald-100/80 text-emerald-600" 
-                    : "bg-amber-100/80 text-amber-600"
-                }
-            `}>
-                <span class="text-2xl sm:text-3xl">{holidayIcon}</span>
-            </div>
-            <div class="flex-1">
-                <h2 class={`text-base sm:text-xl font-bold
-                    ${isHoliday ? "text-emerald-800" : "text-amber-800"}
-                `}>
-                    {isHoliday ? "Estado del día" : "Estado del día"}
+<section aria-label="Hoy y próximo feriado" class="my-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 sm:my-6 sm:p-5">
+    {nextHoliday ? (
+        <div class="flex items-start justify-between gap-3 sm:items-center">
+            <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-wide text-emerald-800">Próximo feriado</p>
+                <h2 class="mt-1 text-lg font-bold leading-snug text-emerald-950 sm:text-xl">
+                    {nextHoliday.slug ? <a class="hover:underline" href={nextHoliday.slug}>{nextHoliday.description}</a> : nextHoliday.description}
                 </h2>
-                <p class={`text-xs sm:text-sm mt-0.5 ${isHoliday ? "text-emerald-600" : "text-amber-600"}`}>
-                    {isHoliday ? "Disfruta tu día libre" : "Próximo feriado"}
-                </p>
+                <p class="mt-1 text-sm text-emerald-900"><time datetime={nextHoliday.date}>{longDate(nextHoliday.date)}</time></p>
+                {nextHoliday.beneficiaries && <p class="mt-1 text-xs text-emerald-800">{nextHoliday.beneficiaries}</p>}
             </div>
+            <p class="shrink-0 text-center text-emerald-900">
+                <span class="block text-xs">Faltan</span>
+                <strong class="block text-3xl leading-tight tabular-nums sm:text-4xl">{days}</strong>
+                <span class="block text-xs">{days === 1 ? 'día' : 'días'}</span>
+            </p>
         </div>
-
-        <!-- Contenido -->
-        <div class="space-y-4">
-            <div class={`
-                rounded-2xl p-4 sm:p-5 transition-all duration-300
-                ${isHoliday
-                  ? "bg-white/70 border border-emerald-100/50 hover:bg-white/90"
-                  : "bg-white/70 border border-amber-100/50 hover:bg-white/90"
-                }
-            `}>
-                <HolidayStatus server:defer>
-                    <div class="flex items-center gap-2 text-gray-500 text-sm">
-                        <span class="text-lg">⏳</span>
-                        <p>Verificando calendario...</p>
-                    </div>
-                </HolidayStatus>
-            </div>
-
-            <div class={`
-                rounded-2xl p-4 sm:p-5 transition-all duration-300
-                ${isHoliday
-                  ? "bg-white/70 border border-emerald-100/50 hover:bg-white/90"
-                  : "bg-white/70 border border-amber-100/50 hover:bg-white/90"
-                }
-            `}>
-                <NextHoliday server:defer>
-                    <div class="flex items-center gap-2 text-gray-500 text-sm">
-                        <span class="text-lg">🔍</span>
-                        <p>Buscando próximo feriado...</p>
-                    </div>
-                </NextHoliday>
-            </div>
-        </div>
+    ) : <p class="font-semibold text-emerald-950">No hay próximas fechas disponibles en el calendario publicado.</p>}
+    <div class="mt-3 border-t border-emerald-200 pt-3 text-xs leading-relaxed text-emerald-900 sm:text-sm">
+        {isHoliday ? (
+            <p><strong>Hoy es feriado:</strong>{" "}{holidays.map((holiday, index) => <span>{index > 0 ? ' · ' : ''}{holiday.slug ? <a href={holiday.slug} class="font-medium underline underline-offset-2">{holiday.description}</a> : holiday.description}{holiday.beneficiaries ? ` (${holiday.beneficiaries})` : ''}</span>)}</p>
+        ) : <p>Hoy no es feriado · <time datetime={today}>{longDate(today)}</time></p>}
     </div>
 </section>

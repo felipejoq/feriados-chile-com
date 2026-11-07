@@ -28,14 +28,14 @@ export const SelectInput = ({
   ...props
 }: SelectInputProps) => {
   return (
-    <div className="flex flex-col flex-1 min-w-3xs relative">
+    <div className="flex flex-col flex-1 min-w-0 relative">
       <label htmlFor={id} className="sr-only">
         {label}
       </label>
 
       <div className="relative w-full">
         {icon && (
-          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+          <div className="absolute inset-y-0 left-3 hidden sm:flex items-center pointer-events-none text-gray-400">
             {icon}
           </div>
         )}
@@ -58,9 +58,9 @@ export const SelectInput = ({
           name={name}
           value={value}
           onChange={onChange}
-          className={`w-full p-2 ${
-            icon ? "pl-10" : "pl-3"
-          } pr-10 border border-gray-300 rounded-xl bg-white text-gray-900 appearance-none`}
+          className={`w-full min-h-11 p-2 text-base! ${
+            icon ? "pl-3! sm:pl-10!" : "pl-3!"
+          } pr-8! border border-gray-300 rounded-xl bg-white text-gray-900 appearance-none`}
           {...props}
         >
           <option value="">{placeholder}</option>
