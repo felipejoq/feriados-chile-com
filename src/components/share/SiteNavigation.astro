@@ -1,0 +1,12 @@
+---
+import {linkList} from "../../utils/data/links-archive";
+interface Props { showHome?: boolean; }
+const {showHome = true} = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<nav aria-label="Calendarios y herramientas" class="my-4 flex flex-wrap items-center justify-center gap-0.5 text-xs min-[360px]:gap-1 min-[360px]:text-sm">
+    {linkList.filter(link => showHome || link.href !== '/').map(link => (
+        <a href={link.href} aria-label={link.href === '/' ? 'Inicio' : `Calendario de ${link.text}`} aria-current={path === link.href ? 'page' : undefined} class:list={["inline-flex min-h-11 items-center rounded-lg px-2 font-semibold hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", path === link.href ? 'bg-emerald-100 text-emerald-900' : 'text-slate-600']}>{link.text}</a>
+    ))}
+    <a href="/#herramientas" class="inline-flex min-h-11 items-center rounded-lg px-2 text-slate-600 underline underline-offset-4 hover:text-emerald-800">Herramientas</a>
+</nav>

@@ -1,23 +1,4 @@
 ---
-import {getCollection} from "astro:content";
-import type {Holiday} from "../../interfaces/holidays/holiday";
-import {HolidayCard} from "../../components/holidays/HolidayCard";
 import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
-
-const holidaysCollection = await getCollection("holidays_2027");
-
-const holidays = holidaysCollection.map(holidayItem => ({
-  id: holidayItem.id,
-  ...holidayItem.data
-})) as Array<Holiday & { id: string }>;
-holidays.sort((a, b) => (a.date || "9999").localeCompare(b.date || "9999"));
 ---
-<ArchiveLayout year={2027}>
-    <div class="flex flex-col w-full my-6 gap-4">
-        {
-            holidays.map((holiday) => (
-              <HolidayCard holiday={holiday}/>
-            ))
-        }
-    </div>
-</ArchiveLayout>
+<ArchiveLayout year={2027} />

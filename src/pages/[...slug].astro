@@ -7,8 +7,7 @@ import {HOLIDAY_COLLECTION_BY_YEAR, type SupportedHolidayYear} from "../utils/ho
 import type {GetStaticPaths} from "astro";
 import {getCollection, getEntry, render} from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro";
-import {Navbar} from "../components/share/Navbar";
-import {linkList} from "../utils/data/links-archive";
+import SiteNavigation from "../components/share/SiteNavigation.astro";
 import HolidayInfoCard from "../components/holidays/HolidayInfoCard.astro";
 import ArticleHolidayBanner from "../components/status-card/ArticleHolidayBanner.astro";
 
@@ -127,136 +126,77 @@ const breadcrumbSchema = {
 };
 ---
 <MainLayout
-        title={article.data.title}
-        description={article.data.description}
-        socialImage={article.data.image}
-        canonicalUrl={articleUrl}
-        keywords={article.data.keywords}
-        ogType="article"
-        publishedDate={article.data.date}
-        author={article.data.author}
-        fullWidth
+    title={article.data.title}
+    description={article.data.description}
+    socialImage={article.data.image}
+    canonicalUrl={articleUrl}
+    keywords={article.data.keywords}
+    ogType="article"
+    publishedDate={article.data.date}
+    author={article.data.author}
 >
     <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} slot="head"/>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} slot="head"/>
+    <SiteNavigation />
 
-    <!-- Navegación -->
-    <div class="container mx-auto px-3 sm:px-4 max-w-5xl">
-        <Navbar client:load linkList={linkList} />
-    </div>
+    <article class="mx-auto mt-6 mb-10 w-full max-w-4xl min-w-0">
+        <header class="mb-6">
+            <a href="/" class="inline-flex min-h-11 items-center text-sm font-medium text-emerald-800 underline underline-offset-4">← Volver al calendario</a>
+            <h1 class="mt-2 text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-4xl">{article.data.title}</h1>
+            <p class="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">{article.data.description}</p>
+            <p class="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs leading-relaxed text-slate-500 sm:text-sm">
+                <span>{article.data.author}</span><span aria-hidden="true">·</span>
+                <time datetime={article.data.updatedDate || article.data.date}>{article.data.updatedDate ? 'Actualizado: ' : 'Publicado: '}{new Date(article.data.updatedDate || article.data.date).toLocaleDateString('es-CL', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</time>
+            </p>
+            {article.data.tool && <nav aria-label="Secciones del artículo" class="mt-3 flex flex-wrap gap-x-5 text-sm font-semibold text-emerald-800">
+                <a href="#herramienta" class="inline-flex min-h-11 items-center underline underline-offset-4">Usar herramienta</a>
+                <a href="#guia" class="inline-flex min-h-11 items-center underline underline-offset-4">Leer la guía ↓</a>
+            </nav>}
+        </header>
 
-    <div class="w-full flex flex-col items-center mb-12">
+        {holidayData && article.data.showHolidayInfo && (
+            <HolidayInfoCard
+                description={holidayData.description}
+                type={holidayData.type}
+                irrenunciable={holidayData.irrenunciable}
+                legalSupport={holidayData.legalSupport}
+                beneficiaries={holidayData.beneficiaries}
+                icon={holidayData.icon}
+                occurrences={holidayData.occurrences}
+            />
+        )}
 
-        <!-- Hero image full-bleed con breadcrumb superpuesto -->
-        <div class="w-full relative">
-            <picture class="block w-full">
-                <img
-                    src={article.data.image}
-                    alt={article.data.alt_text || article.data.title}
-                    class="w-full h-[220px] sm:h-[350px] md:h-[450px] object-cover"
-                    loading="eager"
-                    decoding="async"
-                />
-            </picture>
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/50"></div>
+        {article.data.tool && <div id="herramienta" class="scroll-mt-4">
+            {article.data.tool === "long-weekends" && <HolidayPlanner client:load holidays={plannerHolidays} />}
+            {article.data.tool === "business-days" && <BusinessDaysCalculator client:load holidays={plannerHolidays} />}
+            {article.data.tool === "download-calendar" && <DownloadableCalendar client:load holidays={calendarHolidays} />}
+        </div>}
+
+        <div id="guia" class="scroll-mt-4">
+            <img src={article.data.image} alt={article.data.alt_text || article.data.title} width="1600" height="800" class="my-6 aspect-[2/1] max-h-72 w-full rounded-xl border border-slate-200 object-cover" loading={article.data.tool ? 'lazy' : 'eager'} decoding="async" />
+            <div class="article-content prose prose-slate max-w-none rounded-xl border border-slate-200 bg-white p-4 sm:p-8
+                prose-headings:scroll-mt-6 prose-headings:tracking-tight prose-headings:text-slate-900
+                prose-h2:text-xl sm:prose-h2:text-2xl prose-h3:text-lg sm:prose-h3:text-xl
+                prose-p:leading-relaxed prose-li:leading-relaxed prose-a:text-emerald-800 prose-a:underline prose-a:underline-offset-4
+                prose-img:rounded-lg">
+                <Content/>
+            </div>
         </div>
 
-        <!-- Artículo -->
-        <article class="prose prose-lg prose-slate
-        md:prose-xl
-        prose-h1:text-[1.65rem] md:prose-h1:text-3xl prose-h1:font-extrabold prose-h1:mb-4 sm:prose-h1:mb-6 prose-h1:mt-0 prose-h1:leading-tight
-        prose-h2:text-[1.35rem] md:prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-6 sm:prose-h2:mt-8 prose-h2:mb-3 sm:prose-h2:mb-4 prose-h2:text-gray-800
-        prose-h3:text-xl md:prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-5 sm:prose-h3:mt-6 prose-h3:mb-2 sm:prose-h3:mb-3 prose-h3:text-gray-700
-        prose-p:text-gray-600 prose-p:leading-relaxed prose-p:mb-4
-        prose-a:text-emerald-600 prose-a:font-medium prose-a:no-underline prose-a:transition-colors
-        prose-strong:text-gray-800 prose-strong:font-semibold
-        prose-ul:my-4 sm:prose-ul:my-6 prose-li:text-gray-600 prose-li:leading-relaxed
-        prose-img:rounded-xl prose-img:shadow-lg
-        max-w-4xl w-full
-        -mt-10 sm:-mt-16 md:-mt-24 relative z-10
-        [&_a:hover]:underline [&_a:hover]:text-emerald-700"
-        >
-
-            <!-- Card con contenido -->
-            <div class="px-3 sm:px-8 md:px-12 py-5 sm:py-8 bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-100">
-
-                <!-- Título -->
-                <header class="mb-6 sm:mb-8">
-                    <h1 class="!mb-0">
-                      {article.data.title}
-                    </h1>
-                </header>
-
-                <!-- Datos del feriado relacionado -->
-                {holidayData && article.data.showHolidayInfo && (
-                    <HolidayInfoCard
-                        description={holidayData.description}
-                        type={holidayData.type}
-                        irrenunciable={holidayData.irrenunciable}
-                        legalSupport={holidayData.legalSupport}
-                        beneficiaries={holidayData.beneficiaries}
-                        icon={holidayData.icon}
-                        occurrences={holidayData.occurrences}
-                    />
-                )}
-
-                <!-- Banner dinámico estado del día -->
-                <div class="not-prose mb-6 sm:mb-8">
-                    <ArticleHolidayBanner server:defer>
-                        <div class="h-10"></div>
-                    </ArticleHolidayBanner>
-                </div>
-
-                {article.data.tool === "long-weekends" && <HolidayPlanner client:load holidays={plannerHolidays} />}
-                {article.data.tool === "business-days" && <BusinessDaysCalculator client:load holidays={plannerHolidays} />}
-                {article.data.tool === "download-calendar" && <DownloadableCalendar client:load holidays={calendarHolidays} />}
-
-                <!-- Contenido del artículo -->
-                <div class="article-content overflow-x-auto">
-                    <Content/>
-                </div>
-
-                <!-- Metadata del artículo -->
-                <div class="not-prose mt-8 pt-6 border-t border-gray-200">
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-gray-400">
-                        <time datetime={article.data.updatedDate || article.data.date} class="flex items-center gap-1.5">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                            {article.data.updatedDate ? 'Actualizado: ' : ''}{new Date(article.data.updatedDate || article.data.date).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
-                        </time>
-                        <span aria-hidden="true">·</span>
-                        <a href="/" class="flex items-center gap-1.5 text-emerald-600 hover:text-emerald-700 transition-colors">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                            </svg>
-                            {article.data.author}
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Footer del artículo -->
-                <footer class="not-prose mt-4 pt-4 border-t border-gray-200">
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                        <a href="/" class="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors no-underline group py-2">
-                            <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                            </svg>
-                            Volver al inicio
-                        </a>
-                        <button
-                            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-                            class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                            aria-label="Volver arriba"
-                        >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-                            </svg>
-                            Arriba
-                        </button>
-                    </div>
-                </footer>
-            </div>
-        </article>
-    </div>
+        <div class="mt-6">
+            <ArticleHolidayBanner server:defer>
+                <div slot="fallback" class="h-16 rounded-xl bg-emerald-50" aria-label="Cargando próximo feriado"></div>
+            </ArticleHolidayBanner>
+        </div>
+        <footer class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-3 text-sm">
+            <a href="/" class="inline-flex min-h-11 items-center font-semibold text-emerald-800 underline underline-offset-4">Volver al calendario</a>
+            <a href="#" class="inline-flex min-h-11 items-center rounded-lg px-3 text-slate-600 hover:bg-white">Volver arriba ↑</a>
+        </footer>
+    </article>
 </MainLayout>
+
+<style>
+    .article-content :global(table) { display: block; max-width: 100%; overflow-x: auto; }
+    .article-content :global(pre) { max-width: 100%; overflow-x: auto; }
+    .article-content { overflow-wrap: anywhere; }
+</style>
