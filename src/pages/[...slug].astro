@@ -1,6 +1,9 @@
 ---
 import HolidayPlanner from "../components/planner/HolidayPlanner";
 import BusinessDaysCalculator from "../components/business-days/BusinessDaysCalculator";
+import DownloadableCalendar from "../components/calendar/DownloadableCalendar";
+import {REVIEWED_YEARS} from "../utils/holidays/coverage";
+import {HOLIDAY_COLLECTION_BY_YEAR, type SupportedHolidayYear} from "../utils/holidays/holidayCollection";
 import type {GetStaticPaths} from "astro";
 import {getCollection, getEntry, render} from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro";
@@ -65,7 +68,17 @@ const { article, holidayData } = Astro.props;
 
 const {Content} = await render(article);
 const plannerHolidays = article.data.tool
-  ? (await Promise.all([getCollection("holidays_2026"), getCollection("holidays_2027")])).flat().map(h => ({id:h.id, ...h.data}))
+  ? (await Promise.all(REVIEWED_YEARS.map(year => {
+      const collection = HOLIDAY_COLLECTION_BY_YEAR[year as SupportedHolidayYear];
+      if (!collection) throw new Error(`Falta registrar la colección revisada de ${year}`);
+      return getCollection(collection);
+    }))).flat().map(h => ({id:h.id, ...h.data}))
+  : [];
+const calendarHolidays = article.data.tool === "download-calendar"
+  ? await Promise.all(plannerHolidays.map(async h => {
+      const entry = h.article ? await getEntry(h.article) : null;
+      return {...h, articleUrl: entry ? `https://feriados-chile.com/${entry.data.slug}` : undefined};
+    }))
   : [];
 
 const siteUrl = 'https://feriados-chile.com';
@@ -196,6 +209,7 @@ const breadcrumbSchema = {
 
                 {article.data.tool === "long-weekends" && <HolidayPlanner client:load holidays={plannerHolidays} />}
                 {article.data.tool === "business-days" && <BusinessDaysCalculator client:load holidays={plannerHolidays} />}
+                {article.data.tool === "download-calendar" && <DownloadableCalendar client:load holidays={calendarHolidays} />}
 
                 <!-- Contenido del artículo -->
                 <div class="article-content overflow-x-auto">

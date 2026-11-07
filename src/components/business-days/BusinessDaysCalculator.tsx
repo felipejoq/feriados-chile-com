@@ -1,3 +1,4 @@
+import { COVERAGE_LABEL, DEFAULT_YEAR, MAX_CALENDAR_DAYS, REVIEWED_LABEL } from '../../utils/holidays/coverage';
 import { useEffect, useMemo, useState } from 'react';
 import type { Area, PlannerHoliday } from '../../utils/holidays/planner';
 import {
@@ -61,8 +62,8 @@ export default function BusinessDaysCalculator({holidays}: {holidays: PlannerHol
  const failure = linkError || error;
  return <section id="calculadora" aria-labelledby="business-heading" className="not-prose my-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 sm:p-6 text-gray-900">
   <h2 id="business-heading" tabIndex={-1} className="text-2xl font-bold text-emerald-950">Calcula tus días hábiles</h2>
-  <p className="my-3 text-sm text-gray-700">Lunes a viernes, descontando feriados de la zona elegida. Fechas disponibles: 2026 y 2027. Ejemplo inicial: enero de 2027.</p>
-  <noscript><p className="my-3 rounded-lg bg-amber-100 p-3">Activa JavaScript para cambiar las fechas. El resultado visible corresponde al ejemplo de enero de 2027; puedes leer la guía y sus ejemplos sin activarlo.</p></noscript>
+  <p className="my-3 text-sm text-gray-700">Lunes a viernes, descontando feriados de la zona elegida. Fechas disponibles: {COVERAGE_LABEL}. Ejemplo inicial: enero de {DEFAULT_YEAR}.</p>
+  <noscript><p className="my-3 rounded-lg bg-amber-100 p-3">Activa JavaScript para cambiar las fechas. El resultado visible corresponde al ejemplo de enero de {DEFAULT_YEAR}; puedes leer la guía y sus ejemplos sin activarlo.</p></noscript>
   <fieldset disabled={!ready} className="space-y-4">
    <legend className="sr-only">Opciones de la calculadora</legend>
    <div className="grid gap-4 sm:grid-cols-2">
@@ -82,7 +83,7 @@ export default function BusinessDaysCalculator({holidays}: {holidays: PlannerHol
     {options.mode === 'range' ? <label className="min-w-0 text-sm font-semibold">Fecha final
      <input className={control} type="date" min={MIN_DATE} max={MAX_DATE} value={options.end} onChange={e => update({end:e.target.value})} />
     </label> : <label className="min-w-0 text-sm font-semibold">Días hábiles a sumar
-     <input className={control} type="number" min={1} max={520} step={1} value={Number.isFinite(options.amount) ? options.amount : ''} onChange={e => update({amount:e.target.valueAsNumber})} />
+     <input className={control} type="number" min={1} max={MAX_CALENDAR_DAYS} step={1} value={Number.isFinite(options.amount) ? options.amount : ''} onChange={e => update({amount:e.target.valueAsNumber})} />
     </label>}
    </div>
    <label className="flex items-start gap-2 text-sm font-medium">
@@ -107,6 +108,6 @@ export default function BusinessDaysCalculator({holidays}: {holidays: PlannerHol
    <p role="status" className="mt-2 text-sm text-gray-700">{shareMessage}</p>
    {shareUrl && <label className="block text-sm font-semibold">Enlace para compartir<input className={control} type="text" value={shareUrl} readOnly onFocus={e => e.target.select()} /></label>}
   </>}
-  <p className="mt-4 text-sm text-gray-700">Para organización personal. Un trámite, contrato o jornada puede tener reglas distintas. <a href="#cuando-usar-este-calculo" className="font-semibold text-emerald-800 underline">Revisa cuándo usar este cálculo</a>. Feriados revisados al 6 de noviembre de 2026; no se incluyen proyectos de ley.</p>
+  <p className="mt-4 text-sm text-gray-700">Para organización personal. Un trámite, contrato o jornada puede tener reglas distintas. <a href="#cuando-usar-este-calculo" className="font-semibold text-emerald-800 underline">Revisa cuándo usar este cálculo</a>. Feriados revisados al {REVIEWED_LABEL}; no se incluyen proyectos de ley.</p>
  </section>;
 }

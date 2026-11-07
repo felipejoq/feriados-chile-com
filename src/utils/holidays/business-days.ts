@@ -1,7 +1,8 @@
 import { appliesToArea, type Area, type PlannerHoliday } from './planner.ts';
 
-export const MIN_DATE = '2026-01-01';
-export const MAX_DATE = '2027-12-31';
+import { FIRST_DATE, LAST_DATE, DEFAULT_YEAR, MAX_CALENDAR_DAYS, REVIEWED_YEARS } from './coverage.ts';
+export const MIN_DATE = FIRST_DATE;
+export const MAX_DATE = LAST_DATE;
 export const AREA_LABELS: Record<Area, string> = {
  national: 'Solo feriados nacionales',
  arica: 'Arica y Parinacota',
@@ -30,7 +31,7 @@ export interface BusinessResult {
  days: CalculationDay[];
 }
 export const INITIAL_CALCULATION: CalculationOptions = {
- mode: 'range', start: '2027-01-01', end: '2027-01-31', amount: 10,
+ mode: 'range', start: `${DEFAULT_YEAR}-01-01`, end: `${DEFAULT_YEAR}-01-31`, amount: 10,
  area: 'national', includeStart: true,
 };
 const DAY = 86_400_000;
@@ -43,7 +44,7 @@ function parseDate(date: string): number {
  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('Ingresa una fecha completa y válida.');
  const time = Date.parse(`${date}T00:00:00Z`);
  if (!Number.isFinite(time) || iso(time) !== date) throw new Error('Esa fecha no existe en el calendario.');
- if (date < MIN_DATE || date > MAX_DATE) throw new Error('Elige fechas entre el 1 de enero de 2026 y el 31 de diciembre de 2027.');
+ if (date < MIN_DATE || date > MAX_DATE || !REVIEWED_YEARS.includes(Number(date.slice(0,4)))) throw new Error(`Elige fechas entre el ${fullDate(MIN_DATE)} y el ${fullDate(MAX_DATE)}.`);
  return time;
 }
 function validateOptions(options: CalculationOptions) {
@@ -54,8 +55,8 @@ function validateOptions(options: CalculationOptions) {
  if (options.mode === 'range') {
   parseDate(options.end);
   if (options.start > options.end) throw new Error('La fecha final debe ser igual o posterior a la inicial.');
- } else if (!Number.isInteger(options.amount) || options.amount < 1 || options.amount > 520) {
-  throw new Error('Ingresa una cantidad entera entre 1 y 520 días hábiles.');
+ } else if (!Number.isInteger(options.amount) || options.amount < 1 || options.amount > MAX_CALENDAR_DAYS) {
+  throw new Error(`Ingresa una cantidad entera entre 1 y ${MAX_CALENDAR_DAYS} días hábiles.`);
  }
 }
 
@@ -86,7 +87,7 @@ export function calculateBusinessDays(holidays: PlannerHoliday[], options: Calcu
   result.end = date;
   if (options.mode === 'add' && result.business === options.amount) return result;
  }
- if (options.mode === 'add') throw new Error('El resultado supera el 31 de diciembre de 2027. Reduce los días o elige una fecha anterior; aún no calculamos con feriados de 2028.');
+ if (options.mode === 'add') throw new Error(`El resultado supera el ${fullDate(MAX_DATE)}. Reduce los días o elige una fecha anterior; no calculamos fuera de los años revisados.`);
  return result;
 }
 

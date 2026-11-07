@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
+import { REVIEWED_YEARS, REVIEWED_ON } from '../src/utils/holidays/coverage.ts';
+import { legalSource } from '../src/utils/holidays/calendar-export.ts';
 
 const expectedCalendars = {
   2026: {
@@ -47,11 +49,13 @@ const expectedCalendars = {
   },
 };
 
+assert.deepEqual(REVIEWED_YEARS, Object.keys(expectedCalendars).map(Number), 'Cada año habilitado debe contar con expectativas revisadas independientes.');
+assert.match(REVIEWED_ON, /^\d{4}-\d{2}-\d{2}$/);
 for (const [year, expected] of Object.entries(expectedCalendars)) {
   const directory = new URL(`../src/content/holidays_${year}/`, import.meta.url);
   const files = (await readdir(directory)).filter((file) => file.endsWith('.json'));
   const holidays = await Promise.all(
-    files.map(async (file) => JSON.parse(await readFile(new URL(file, directory), 'utf8'))),
+    files.map(async (file) => ({id:file.replace('.json',''), ...JSON.parse(await readFile(new URL(file, directory), 'utf8'))})),
   );
 
   assert.equal(
@@ -61,6 +65,7 @@ for (const [year, expected] of Object.entries(expectedCalendars)) {
   );
 
   for (const holiday of holidays) {
+    if (holiday.date && holiday.type !== 'Especial') assert.ok(legalSource(holiday).startsWith('https://www.bcn.cl/'));
     assert.ok(expected[holiday.description], `${year}: feriado inesperado: ${holiday.description}`);
     assert.deepEqual(
       [holiday.date ?? null, holiday.irrenunciable],
@@ -70,4 +75,4 @@ for (const [year, expected] of Object.entries(expectedCalendars)) {
   }
 }
 
-console.log('Calendarios 2026 y 2027 validados correctamente.');
+console.log(`Calendarios ${REVIEWED_YEARS.join(' y ')} validados correctamente. Revisión: ${REVIEWED_ON}.`);
