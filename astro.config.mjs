@@ -5,8 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 
 import react from '@astrojs/react';
 
-import partytown from '@astrojs/partytown';
-
 import sitemap from '@astrojs/sitemap';
 
 import cloudflare from '@astrojs/cloudflare';
@@ -19,11 +17,6 @@ export default defineConfig({
   },
   integrations: [
     react(),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
-      },
-    }),
     sitemap()
   ],
   adapter: cloudflare({ imageService: 'compile' }),
