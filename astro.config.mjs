@@ -5,11 +5,11 @@ import tailwindcss from '@tailwindcss/vite';
 
 import react from '@astrojs/react';
 
-import node from '@astrojs/node';
-
 import partytown from '@astrojs/partytown';
 
 import sitemap from '@astrojs/sitemap';
+
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,9 +26,8 @@ export default defineConfig({
     }),
     sitemap()
   ],
-  adapter: node({
-    mode: 'standalone'
-  }),
+  adapter: cloudflare({ imageService: 'compile' }),
+  session: false,
   server: {
     host: '0.0.0.0'
   },

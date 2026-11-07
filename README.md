@@ -54,6 +54,14 @@ npm run dev
 npm run build
 ```
 
+## Alojamiento y publicación
+
+El sitio se publica en Cloudflare Workers con el adaptador oficial de Astro.
+Las imágenes continúan en R2. Consulta [el procedimiento de despliegue y reversión](docs/despliegue-cloudflare.md).
+
+El flujo de publicación es crear un PR hacia `main` y hacer merge: Workers Builds
+ejecuta las comprobaciones, compila y despliega automáticamente.
+
 ## Datos
 
 ℹ️ Los datos de los feriados chilenos se obtienen desde la API de [Feriados Chile](https://apis.digital.gob.cl/fl/). Servicio
